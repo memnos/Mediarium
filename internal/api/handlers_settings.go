@@ -203,8 +203,9 @@ type settingsPayload struct {
 	QualityLanguageOnly *bool `json:"qualityLanguageOnly,omitempty"`
 
 	// The language titles, plots, genres and posters are shown in, as a TMDB
-	// tag like "de-DE" (English by default), and the choices. File and folder
-	// names always use the English title, whatever is picked.
+	// tag like "de-DE" (English by default), and the choices. New movie and
+	// show folders use that language's title. File names and indexer searches
+	// stay in English, and a title that already has files keeps its folder.
 	InfoLanguage  string              `json:"infoLanguage,omitempty"`
 	InfoLanguages []metadata.Language `json:"infoLanguages,omitempty"`
 

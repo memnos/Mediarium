@@ -103,10 +103,11 @@ type Server struct {
 	version      string
 	security     securityState // trusted proxies, allowed origins, per-account sign-in limit (security.go)
 
-	arrRecs arrRecommended
-	tmdbMu  sync.RWMutex
-	tmdb    *metadata.Client
-	tvmaze  *tvmaze.Client // episode air times (tvmaze_airtimes.go); never contacted while the switch is off
+	arrRecs      arrRecommended
+	tmdbMu       sync.RWMutex
+	tmdb         *metadata.Client
+	folderTitles folderTitleCache // localized titles for new movie and show folders (folder_title.go)
+	tvmaze       *tvmaze.Client   // episode air times (tvmaze_airtimes.go); never contacted while the switch is off
 
 	subsMu sync.RWMutex
 	subs   *subtitles.Client

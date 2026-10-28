@@ -6834,7 +6834,7 @@
   "Your debrid service already has this torrent, so it starts at once": "Ваш debrid-сервіс уже має цей торент, тож він стартує одразу",
   "Your details": "Ваші дані",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Ваша тека завантажень лежить на іншому диску чи спільному ресурсі, ніж {what}, тож кожен файл копіюється до бібліотеки замість переміщення. Це працює, просто трохи повільніше.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Ваші файли й теки завжди використовують англійську назву, тож зміна цього нічого не перейменовує.",
+  "New movie and show folders use the title in this language. Files and indexer searches stay in English, and a title that already has files keeps its folder.": "Нові папки фільмів і серіалів використовують назву цією мовою. Файли й пошук в індексерах лишаються англійською, а назва, у якої вже є файли, зберігає свою папку.",
   "Your files stay where they are": "Ваші файли залишаться на місці",
   "Your formats": "Ваші формати",
   "Your home network": "Ваша домашня мережа",

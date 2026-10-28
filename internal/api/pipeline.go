@@ -1266,7 +1266,11 @@ func (s *Server) buildDestPathFor(root, movieTitle string, year, tmdbID int, rel
 	}
 
 	sanitizeMode, replacement := s.illegalCharSettings()
-	folder := organizer.Sanitize(organizer.Render(s.movieFolderFormat(), ctx), sanitizeMode, replacement)
+	// The folder takes the title in the info language. The file keeps the
+	// English title the library stores, which is also what indexers are searched for.
+	folderCtx := ctx
+	folderCtx.MovieTitle = s.folderTitle(tmdbID, "movie", movieTitle)
+	folder := organizer.Sanitize(organizer.Render(s.movieFolderFormat(), folderCtx), sanitizeMode, replacement)
 	name, src := s.keptName(videoFile, releaseTitle, releaseMayName, sanitizeMode, replacement)
 	if name != "" {
 		return filepath.Join(moviesPath, folder, name), src, nil

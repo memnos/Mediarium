@@ -13,9 +13,9 @@ import (
 	"github.com/rdborg/mediarium/internal/settings"
 )
 
-// New folders use the title in the info language. Files keep the English
-// title the library stores, a missing translation leaves the English name,
-// and a title that already has files keeps the folder they are in.
+// New folders and file names use the title in the info language. A missing
+// translation leaves the English name, and a title that already has files
+// keeps the folder they are in.
 func TestFolderTitleFollowsInfoLanguage(t *testing.T) {
 	s := newAuditServer(t)
 	var (
@@ -74,8 +74,8 @@ func TestFolderTitleFollowsInfoLanguage(t *testing.T) {
 	if want := filepath.Join(movies, "Anna - Parole di guerra (2025) [tmdb-603]"); filepath.Dir(got) != want {
 		t.Errorf("movie folder = %q, want %q", filepath.Dir(got), want)
 	}
-	if want := "Words of War (2025).mkv"; filepath.Base(got) != want {
-		t.Errorf("file name = %q, want %q (files stay in English)", filepath.Base(got), want)
+	if want := "Anna - Parole di guerra (2025).mkv"; filepath.Base(got) != want {
+		t.Errorf("file name = %q, want %q", filepath.Base(got), want)
 	}
 
 	// The title page asks again every few seconds: the second lookup is cached.
@@ -134,7 +134,7 @@ func TestFolderTitleFollowsInfoLanguage(t *testing.T) {
 		t.Errorf("a movie with no file should use the localized folder, got %q", got)
 	}
 
-	// A show folder follows the same language. Episode files stay in English.
+	// A show folder and its episode file follow the same language.
 	if err := s.Settings.Set(settings.KeyInfoLanguage, "it-IT", false); err != nil {
 		t.Fatal(err)
 	}
@@ -146,7 +146,7 @@ func TestFolderTitleFollowsInfoLanguage(t *testing.T) {
 	if want := filepath.Join(tv, "Breaking Bad - Reazione a catena (2008)", "Season 01"); filepath.Dir(ep) != want {
 		t.Errorf("show folder = %q, want %q", filepath.Dir(ep), want)
 	}
-	if want := "Breaking Bad - S01E01 - Pilot.mkv"; filepath.Base(ep) != want {
+	if want := "Breaking Bad - Reazione a catena - S01E01 - Pilot.mkv"; filepath.Base(ep) != want {
 		t.Errorf("episode file = %q, want %q", filepath.Base(ep), want)
 	}
 }

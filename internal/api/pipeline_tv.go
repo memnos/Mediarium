@@ -616,12 +616,11 @@ func (s *Server) buildTVDestPathFor(series library.Series, ep library.Episode, r
 		OriginalTitle: releaseTitle, OriginalFilename: originalStem(videoFile),
 	}
 	mode, replacement := s.illegalCharSettings()
+	// The show folder and the episode file use the title in the info language.
+	// Indexers are still searched for the English title the library stores.
+	ctx.SeriesTitle = s.folderTitle(series.TMDBID, "tv", series.Title)
 	clean := func(f string) string { return organizer.Sanitize(organizer.Render(f, ctx), mode, replacement) }
-	// The show folder takes the title in the info language. Episode files keep
-	// the English title, which is also what indexers are searched for.
-	folderCtx := ctx
-	folderCtx.SeriesTitle = s.folderTitle(series.TMDBID, "tv", series.Title)
-	showFolder := organizer.Sanitize(organizer.Render(s.seriesFolderFormat(), folderCtx), mode, replacement)
+	showFolder := clean(s.seriesFolderFormat())
 
 	folder := filepath.Join(root, showFolder, clean(organizer.TVSeasonFolder))
 	if s.seriesFolderFormat() != organizer.DefaultSeriesFolder || s.folderNameWouldChange(series.TMDBID, "tv", series.Title) {

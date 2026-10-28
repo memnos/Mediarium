@@ -10,7 +10,7 @@ under [Unreleased]. How releases are cut: [docs/RELEASING.md](docs/RELEASING.md)
 
 ### Changed
 
-- New movie and show folders use the title in the language chosen for movie and show info (Settings > Info, lists and subtitles), the same title shown on the title page. A German library gets `Die Matrix (1999)` instead of `The Matrix (1999)`. Where TMDB has no translation, the English title is used. A title that already has files keeps its folder, so changing the language never moves anything. File names, and the titles searched for on indexers, stay in English.
+- New movie and show folders and file names use the title in the language chosen for movie and show info (Settings > Info, lists and subtitles), the same title shown on the title page. A German library gets `Die Matrix (1999)` instead of `The Matrix (1999)`, for the folder and for the file. Where TMDB has no translation, the English title is used. A title that already has files keeps its folder, so changing the language never moves anything. The titles searched for on indexers stay in English. With **Keep the original file names** on, a file keeps the name it came with.
 
 ## [3.8.0] - 2026-10-27
 

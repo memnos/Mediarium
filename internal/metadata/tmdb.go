@@ -43,10 +43,10 @@ func (e *StatusError) Error() string {
 const maxAPIResponse = 16 << 20
 
 // DefaultLanguage is the language TMDB text comes in unless asked otherwise.
-// File names and the titles searched for on indexers are always fetched in
-// it. New movie and show folders use the language chosen for what is read on
-// screen instead (see api.folderTitle); a title that already has files keeps
-// its folder.
+// The titles searched for on indexers are always fetched in it. New movie
+// and show folders and file names use the language chosen for what is read
+// on screen instead (see api.folderTitle); a title that already has files
+// keeps its folder.
 const DefaultLanguage = "en-US"
 
 type Client struct {

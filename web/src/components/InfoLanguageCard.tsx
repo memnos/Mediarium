@@ -21,7 +21,7 @@ function countryName(code: string): string {
 // The language titles, descriptions, genres and posters are read in. It is its
 // own choice, apart from the screen language: someone can read Mediarium in
 // English and still want film titles in Portuguese. New movie and show folders
-// use the same title. Files, and the titles searched for, stay in English.
+// and file names use the same title. The titles searched for stay in English.
 export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 2 | 3 }) {
   const toast = useToast()
   const [value, setValue] = useState('')
@@ -105,7 +105,7 @@ export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 
           <Icon name="globe" size={14} /> {t('Use {language}, like the screen', { language: suggestedName })}
         </button>
       )}
-      <p className="field-hint">{t('New movie and show folders use the title in this language. Files and indexer searches stay in English, and a title that already has files keeps its folder.')}</p>
+      <p className="field-hint">{t('New movie and show folders and file names use the title in this language. Indexer searches stay in English, and a title that already has files keeps its folder.')}</p>
       {error && <p className="error-text">{error}</p>}
     </section>
   )

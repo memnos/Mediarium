@@ -73,7 +73,7 @@ The keys the app stores in its settings table. You normally change these from th
 | `formats.trash_last_check` | what the last check of the TRaSH Guides found, as JSON (shown under the switch on the Custom formats card) |
 | `formats.trash_last_update` | when the TRaSH Guides were last read for the daily update (RFC 3339) |
 | `import.check_duration` | "0" turns off the check that a video is about as long as its episode or movie before it is imported (Settings > Library > File names and importing); anything else, including unset, leaves it on |
-| `info.language` | the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); new movie and show folders use that language's title, while file names and indexer searches stay in English, and a title that already has files keeps its folder |
+| `info.language` | the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); new movie and show folders and file names use that language's title, while indexer searches stay in English, and a title that already has files keeps its folder |
 | `info.release_country` | the country release dates are read for, as a code like "IN"; unset = the country of the info language |
 | `legal.acknowledged_at` |  |
 | `library.default_profile_id` | id of the stored quality profile used by items with no profile of their own |

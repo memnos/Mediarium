@@ -67,13 +67,12 @@ func (s *Server) folderNameWouldChange(tmdbID int, kind, english string) bool {
 	return s.folderTitle(tmdbID, kind, english) != strings.TrimSpace(english)
 }
 
-// folderTitle is the title a new movie or show folder is named with. It is
-// the title in the language chosen for movie and show info, when that
-// language is not English and TMDB has a translation. The library keeps the
-// English title: files are still named with it, and indexers are still
-// searched for it. A lookup that fails, or a title TMDB has no translation
-// of, leaves the English name, so a folder can still be made. kind is
-// "movie" or "tv".
+// folderTitle is the title a new movie or show folder and file are named
+// with. It is the title in the language chosen for movie and show info, when
+// that language is not English and TMDB has a translation. The library keeps
+// the English title, and indexers are still searched for it. A lookup that
+// fails, or a title TMDB has no translation of, leaves the English name, so
+// a folder and a file can still be made. kind is "movie" or "tv".
 func (s *Server) folderTitle(tmdbID int, kind, english string) string {
 	english = strings.TrimSpace(english)
 	if tmdbID <= 0 || !s.foldersFollowInfoLanguage() {

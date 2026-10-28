@@ -6834,7 +6834,7 @@
   "Your debrid service already has this torrent, so it starts at once": "У вашего debrid-сервиса уже есть этот торрент, поэтому загрузка начнётся сразу",
   "Your details": "Ваши данные",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Ваша папка загрузок находится на другом диске или общем ресурсе, чем {what}, поэтому каждый файл копируется в библиотеку, а не перемещается. Это работает, просто чуть медленнее.",
-  "New movie and show folders use the title in this language. Files and indexer searches stay in English, and a title that already has files keeps its folder.": "Новые папки фильмов и сериалов используют название на этом языке. Файлы и поиск по индексерам остаются на английском, а у названия, у которого уже есть файлы, папка не меняется.",
+  "New movie and show folders and file names use the title in this language. Indexer searches stay in English, and a title that already has files keeps its folder.": "Новые папки и имена файлов фильмов и сериалов используют название на этом языке. Поиск по индексерам остаётся на английском, а у названия, у которого уже есть файлы, папка не меняется.",
   "Your files stay where they are": "Ваши файлы остаются на месте",
   "Your formats": "Ваши форматы",
   "Your home network": "Ваша домашняя сеть",

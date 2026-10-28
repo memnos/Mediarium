@@ -6834,7 +6834,7 @@
   "Your debrid service already has this torrent, so it starts at once": "Twoja usługa debrid ma już ten torrent, więc zaczyna się od razu",
   "Your details": "Twoje dane",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Twój folder pobierania jest na innym dysku lub udziale niż {what}, więc każdy plik jest kopiowany do biblioteki zamiast przenoszony. Działa, tylko trochę wolniej.",
-  "New movie and show folders use the title in this language. Files and indexer searches stay in English, and a title that already has files keeps its folder.": "Nowe foldery filmów i seriali używają tytułu w tym języku. Pliki i wyszukiwania w indeksach zostają po angielsku, a tytuł, który ma już pliki, zachowuje swój folder.",
+  "New movie and show folders and file names use the title in this language. Indexer searches stay in English, and a title that already has files keeps its folder.": "Nowe foldery i nazwy plików filmów i seriali używają tytułu w tym języku. Wyszukiwania w indeksach zostają po angielsku, a tytuł, który ma już pliki, zachowuje swój folder.",
   "Your files stay where they are": "Twoje pliki zostają tam, gdzie są",
   "Your formats": "Twoje formaty",
   "Your home network": "Twoja sieć domowa",

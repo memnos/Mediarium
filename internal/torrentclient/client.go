@@ -36,6 +36,14 @@ type TunnelDialer interface {
 	DialContext(ctx context.Context, network, addr string) (net.Conn, error)
 }
 
+// TunnelPacket is the optional half of a tunnel that can carry UDP inside
+// itself. ListenPacket must not bind a socket on the host network: every
+// packet has to leave from the VPN address. A tunnel that only implements
+// TunnelDialer keeps UDP trackers and DHT switched off.
+type TunnelPacket interface {
+	ListenPacket(network, addr string) (net.PacketConn, error)
+}
+
 // Config are the local engine settings ("seed ratio/time
 // limits, category-based save paths").
 type Config struct {
@@ -48,6 +56,11 @@ type Config struct {
 	// instead of the host network. See New's
 	// doc comment for exactly what that does and doesn't cover.
 	Tunnel TunnelDialer
+
+	// DiscoverThroughTunnel sends UDP tracker announces and DHT queries
+	// through Tunnel. It does nothing unless Tunnel also implements
+	// TunnelPacket. Off, those are skipped so the home address is never used.
+	DiscoverThroughTunnel bool
 
 	// PortMapping asks the router to open the listen port (UPnP, then
 	// NAT-PMP). Never done with a Tunnel, whatever this says.
@@ -74,6 +87,10 @@ type Client struct {
 	lastIncoming atomic.Int64
 
 	pm *portMapper // asks the router to open the listen port; nil with a tunnel
+
+	// closeDHT stops the DHT server that runs on a tunnel socket, when one
+	// was started. Nil when discovery through the tunnel is off.
+	closeDHT func()
 }
 
 // New starts the embedded torrent engine. When cfg.Tunnel is set, this is a
@@ -84,13 +101,11 @@ type Client struct {
 // down. The only dialer added is cfg.Tunnel itself, so a dropped tunnel
 // simply fails every new dial rather than reverting to a direct one.
 //
-// DHT and uTP are casualties of this: both are UDP-based and need a real
-// socket bound to arbitrary remote peers (uTP a shared local PacketConn per
-// socket, DHT its own routable UDP endpoint) rather than anacrolix/torrent's
-// per-connection Dialer interface, which only really suits stream
-// protocols. Tunneling them would mean binding a real host UDP socket —
-// exactly the leak this mode exists to prevent. Peer discovery instead
-// relies on tracker announces and PEX over the tunneled TCP connections.
+// uTP stays off: the engine would otherwise open a UDP socket on the host.
+// DHT and UDP trackers can still run, but only on a socket the tunnel
+// itself provides (DiscoverThroughTunnel), so replies come back to the VPN
+// address. Without that, peer discovery uses HTTP trackers and PEX over
+// the tunneled TCP connections.
 func New(cfg Config) (*Client, error) {
 	c := &Client{cfg: cfg, storages: map[*torrent.Torrent]storage.ClientImplCloser{}}
 
@@ -125,13 +140,19 @@ func New(cfg Config) (*Client, error) {
 		}
 	})
 	tcfg.Callbacks.PeerConnReadExtensionMessage = append(tcfg.Callbacks.PeerConnReadExtensionMessage, guardMetadataMessage)
-	applyNetworkPolicy(tcfg, cfg.Tunnel, cfg.AllowLocalAddresses)
+	applyNetworkPolicy(tcfg, cfg.Tunnel, cfg.AllowLocalAddresses, cfg.DiscoverThroughTunnel)
 	tc, err := torrent.NewClient(tcfg)
 	if err != nil {
 		return nil, fmt.Errorf("create torrent client: %w", err)
 	}
 	if cfg.Tunnel != nil {
 		tc.AddDialer(torrent.NetworkDialer{Network: "tcp", Dialer: cfg.Tunnel})
+	}
+	if cfg.DiscoverThroughTunnel {
+		if err := c.enableTunnelDiscovery(tc); err != nil {
+			tc.Close()
+			return nil, err
+		}
 	}
 	c.tc = tc
 	if cfg.Tunnel == nil {
@@ -141,6 +162,29 @@ func New(cfg Config) (*Client, error) {
 		}
 	}
 	return c, nil
+}
+
+// enableTunnelDiscovery starts DHT on a UDP socket that belongs to the
+// tunnel. UDP tracker announces use the same kind of socket, set up in
+// applyNetworkPolicy. A tunnel that cannot carry UDP leaves both off: no
+// host socket is opened instead.
+func (c *Client) enableTunnelDiscovery(tc *torrent.Client) error {
+	udp, ok := c.cfg.Tunnel.(TunnelPacket)
+	if !ok {
+		return nil
+	}
+	pc, err := udp.ListenPacket("udp4", ":0")
+	if err != nil {
+		return fmt.Errorf("dht through the vpn: %w", err)
+	}
+	ds, err := tc.NewAnacrolixDhtServer(pc)
+	if err != nil {
+		_ = pc.Close()
+		return fmt.Errorf("dht through the vpn: %w", err)
+	}
+	tc.AddDhtServer(torrent.AnacrolixDhtServerWrapper{Server: ds})
+	c.closeDHT = func() { ds.Close() }
+	return nil
 }
 
 // SetPortMapping switches asking the router to open the listen port on or off.
@@ -168,6 +212,9 @@ func (c *Client) PortMapping() PortMapStatus {
 func (c *Client) Close() {
 	if c.pm != nil {
 		c.pm.Stop()
+	}
+	if c.closeDHT != nil {
+		c.closeDHT()
 	}
 	c.tc.Close()
 	c.mu.Lock()

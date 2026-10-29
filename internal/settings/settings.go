@@ -167,6 +167,11 @@ const (
 	// Indexer traffic through the VPN. Off when unset.
 	KeyVPNRouteIndexers = "vpn.route_indexers" // "1" sends searches, RSS, release downloads, IRC announces and debrid through the VPN, and they wait while it isn't up. Home-network addresses still connect directly
 
+	// UDP tracker announces and DHT queries through the built-in VPN. Off
+	// when unset: those are skipped, and only HTTP trackers are used. On,
+	// the packets leave from the VPN address, not the home address.
+	KeyVPNDiscoverThroughTunnel = "vpn.discover_through_tunnel"
+
 	// A SOCKS5 or HTTP proxy for some of Mediarium's traffic. The address
 	// (with any user name and password) is stored encrypted; "" means no
 	// proxy. proxy_for lists what goes through it: torrents, indexers and/or

@@ -8,6 +8,10 @@ under [Unreleased]. How releases are cut: [docs/RELEASING.md](docs/RELEASING.md)
 
 ## [Unreleased]
 
+### Added
+
+- **UDP trackers and DHT through the VPN** (Settings > Downloading > VPN and proxy), off until you turn it on. Announces to `udp://` trackers and DHT queries then leave through the built-in WireGuard tunnel, so peers and trackers see the VPN address rather than your home address. While it is off, those are skipped and only HTTP trackers are used, which is why a torrent that lists only UDP trackers stays at 0 B/s until the VPN is disconnected. uTP stays off, and a download that has already started keeps the previous choice until you retry it. A SOCKS or HTTP proxy does not carry this UDP.
+
 ## [3.8.2] - 2026-10-29
 
 In short: a security update to the libraries Mediarium uses to read ebook files. Nothing else changed.

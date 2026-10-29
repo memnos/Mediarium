@@ -741,6 +741,8 @@ export interface Settings {
   requireVpnForTorrents?: boolean
   // Send indexer traffic through the VPN; off until switched on.
   routeIndexersThroughVpn?: boolean
+  // UDP trackers and DHT through the built-in VPN; off until switched on.
+  discoverThroughTunnel?: boolean
   // The person said their torrent client is already behind a VPN: no "Torrenting without a VPN" notice.
   vpnNoticeAcknowledged?: boolean
   importConflictPolicy?: string

@@ -226,6 +226,9 @@ type settingsPayload struct {
 	// Indexer traffic through the VPN. A pointer for the same reason.
 	RouteIndexersThroughVPN *bool `json:"routeIndexersThroughVpn,omitempty"`
 
+	// UDP trackers and DHT through the VPN. A pointer for the same reason.
+	DiscoverThroughTunnel *bool `json:"discoverThroughTunnel,omitempty"`
+
 	// The person said their torrent client is already behind a VPN, so the
 	// "Torrenting without a VPN" notice stays away.
 	VPNNoticeAcknowledged *bool `json:"vpnNoticeAcknowledged,omitempty"`
@@ -399,6 +402,7 @@ func (s *Server) handleGetSettings(w http.ResponseWriter, r *http.Request) {
 	illegalCharReplacement, _ := s.Settings.Get(settings.KeyIllegalCharReplacement)
 	requireVPNForTorrents := s.vpnRequiredForTorrents()
 	routeIndexersThroughVPN := s.vpnForIndexers()
+	discoverThroughTunnel := s.vpnUDPDiscovery()
 	vpnNoticeAcknowledged := s.vpnNoticeAcknowledged()
 	importConflictPolicy, _ := s.Settings.Get(settings.KeyImportConflictPolicy)
 	if importConflictPolicy == "" {
@@ -514,6 +518,7 @@ func (s *Server) handleGetSettings(w http.ResponseWriter, r *http.Request) {
 		ReleaseCountryEffective:  s.releaseRegion(),
 		RequireVPNForTorrents:    &requireVPNForTorrents,
 		RouteIndexersThroughVPN:  &routeIndexersThroughVPN,
+		DiscoverThroughTunnel:    &discoverThroughTunnel,
 		VPNNoticeAcknowledged:    &vpnNoticeAcknowledged,
 		ImportConflictPolicy:     importConflictPolicy,
 		HasTraktClientID:         s.Trakt().HasClientID(),
@@ -1078,6 +1083,18 @@ func (s *Server) handlePutSettings(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		tx.then(s.applyVPNRoutes)
+	}
+	if req.DiscoverThroughTunnel != nil {
+		value := "1"
+		if !*req.DiscoverThroughTunnel {
+			value = "0"
+		}
+		if err := tx.Set(settings.KeyVPNDiscoverThroughTunnel, value, false); err != nil {
+			writeError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		on := *req.DiscoverThroughTunnel
+		tx.then(func() { s.torrents.setDiscover(on) })
 	}
 
 	if req.TMDBAPIKey != "" {

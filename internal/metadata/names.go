@@ -387,3 +387,31 @@ func TitleKeys(s string) []string {
 	}
 	return []string{k}
 }
+
+// umlautLetters is how a name writes umlauts and the sharp s out when the
+// letters themselves are not used: some release groups post "Sams im Glueck",
+// some "Sams im Glück".
+var umlautLetters = strings.NewReplacer("ä", "ae", "ö", "oe", "ü", "ue", "Ä", "Ae", "Ö", "Oe", "Ü", "Ue", "ß", "ss", "ẞ", "SS")
+
+// WithUmlautSpellings puts, right after each name that has umlauts or a sharp
+// s, the same name written out with "ae", "oe", "ue" and "ss", so an indexer
+// that does not fold the letters is asked for both spellings. A spelling the
+// list already has is not added twice.
+func WithUmlautSpellings(names []string) []string {
+	out := make([]string, 0, len(names)*2)
+	seen := map[string]bool{}
+	for _, n := range names {
+		seen[strings.ToLower(n)] = true
+	}
+	for _, n := range names {
+		out = append(out, n)
+		if !strings.ContainsAny(n, "äöüÄÖÜßẞ") {
+			continue
+		}
+		if v := umlautLetters.Replace(n); v != n && !seen[strings.ToLower(v)] {
+			seen[strings.ToLower(v)] = true
+			out = append(out, v)
+		}
+	}
+	return out
+}

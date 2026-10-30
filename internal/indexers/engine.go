@@ -258,6 +258,9 @@ func SearchAll(ctx context.Context, instances []Instance, query string, categori
 			} else {
 				client := NewNewznabClient(inst.Name, inst.BaseURL, inst.APIKey)
 				results, err = client.Search(reqCtx, query, categories)
+				if client.ExtraRequests > 0 {
+					inst.Tracker.CountRequest(inst.ID, client.ExtraRequests)
+				}
 			}
 			for j := range results {
 				results[j].Protocol = inst.Protocol

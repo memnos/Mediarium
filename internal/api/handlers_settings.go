@@ -166,6 +166,9 @@ type settingsPayload struct {
 	// SeasonPacks looks for a season pack once a season has ended (off unless
 	// switched on; a show can say otherwise for itself).
 	SeasonPacks *bool `json:"seasonPacks,omitempty"`
+	// FoldersInInfoLanguage names new movie and show folders and files with the
+	// title in the info language (off unless switched on).
+	FoldersInInfoLanguage *bool `json:"foldersInInfoLanguage,omitempty"`
 	// TVmazeAirTimes looks up the time episodes air on TVmaze (on unless
 	// switched off; off means TVmaze is never contacted).
 	TVmazeAirTimes *bool `json:"tvmazeAirTimes,omitempty"`
@@ -203,8 +206,9 @@ type settingsPayload struct {
 	QualityLanguageOnly *bool `json:"qualityLanguageOnly,omitempty"`
 
 	// The language titles, plots, genres and posters are shown in, as a TMDB
-	// tag like "de-DE" (English by default), and the choices. File and folder
-	// names always use the English title, whatever is picked.
+	// tag like "de-DE" (English by default), and the choices. New movie and
+	// show folders and file names use that language's title. Indexer searches
+	// stay in English, and a title that already has files keeps its folder.
 	InfoLanguage  string              `json:"infoLanguage,omitempty"`
 	InfoLanguages []metadata.Language `json:"infoLanguages,omitempty"`
 
@@ -386,6 +390,7 @@ func (s *Server) handleGetSettings(w http.ResponseWriter, r *http.Request) {
 	osEnabled, subdlEnabled, addonsEnabled := sources.OpenSubtitles.Switch, sources.SubDL.Switch, sources.Addons.Switch
 	unmonitorDownloaded, unmonitorFinished := s.unmonitorDownloaded(), s.unmonitorFinished()
 	seasonPacks := s.seasonPackDefault()
+	foldersInInfoLanguage := s.settingOn(settings.KeyFoldersInInfoLanguage, false)
 	tvmazeAirTimes := s.tvmazeOn()
 	qualityLanguageOnly := s.languageOnly()
 	showAdvanced := s.showAdvanced()
@@ -496,6 +501,7 @@ func (s *Server) handleGetSettings(w http.ResponseWriter, r *http.Request) {
 		TrailerSound:             &trailerSound,
 		UnmonitorFinished:        &unmonitorFinished,
 		SeasonPacks:              &seasonPacks,
+		FoldersInInfoLanguage:    &foldersInInfoLanguage,
 		TVmazeAirTimes:           &tvmazeAirTimes,
 		HasOpenSubtitlesAccount:  s.Subtitles().HasCredentials(),
 		OpenSubtitlesAccountName: osUser,
@@ -961,6 +967,13 @@ func (s *Server) handlePutSettings(w http.ResponseWriter, r *http.Request) {
 	}
 	if req.UnmonitorFinished != nil {
 		if err := setBool(tx, settings.KeyUnmonitorFinished, *req.UnmonitorFinished); err != nil {
+			writeError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+
+	if req.FoldersInInfoLanguage != nil {
+		if err := setBool(tx, settings.KeyFoldersInInfoLanguage, *req.FoldersInInfoLanguage); err != nil {
 			writeError(w, http.StatusInternalServerError, err.Error())
 			return
 		}

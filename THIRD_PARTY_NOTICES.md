@@ -72,7 +72,7 @@ Air times from TVmaze. Only a show's TheTVDB or IMDb id, or its name and year, i
 | github.com/edsrzf/mmap-go | v1.1.0 | BSD-3-Clause |
 | github.com/fxamacker/cbor/v2 | v2.9.4 | MIT |
 | github.com/go-asn1-ber/asn1-ber | v1.5.8 | MIT |
-| github.com/go-jose/go-jose/v4 | v4.1.4 | Apache-2.0 |
+| github.com/go-jose/go-jose/v4 | v4.1.6 | Apache-2.0 |
 | github.com/go-ldap/ldap/v3 | v3.4.15 | MIT |
 | github.com/go-llsqlite/adapter | v0.0.0-20230927005056-7f5ce7f0c916 | MPL-2.0 |
 | github.com/go-llsqlite/crawshaw | v0.5.6-0.20250312230104-194977a03421 | ISC |
@@ -4637,7 +4637,7 @@ SOFTWARE.
 ```
 
 
-### github.com/go-jose/go-jose/v4 v4.1.4
+### github.com/go-jose/go-jose/v4 v4.1.6
 
 ```text
 Apache License

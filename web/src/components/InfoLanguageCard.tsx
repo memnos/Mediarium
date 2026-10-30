@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { api } from '../api'
 import { currentLanguage, locale, t, type Lang } from '../i18n'
 import Icon from './Icon'
+import Switch from './Switch'
 import { useToast } from './Toast'
 
 // The TMDB language that goes with each screen language, for the "use the same
@@ -20,14 +21,15 @@ function countryName(code: string): string {
 
 // The language titles, descriptions, genres and posters are read in. It is its
 // own choice, apart from the screen language: someone can read Mediarium in
-// English and still want film titles in Portuguese. Files and folders keep the
-// English title either way.
+// English and still want film titles in Portuguese. New movie and show folders
+// and file names use the same title. The titles searched for stay in English.
 export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 2 | 3 }) {
   const toast = useToast()
   const [value, setValue] = useState('')
   const [options, setOptions] = useState<{ tag: string; name: string }[]>([])
   const [country, setCountry] = useState('')
   const [countries, setCountries] = useState<string[]>([])
+  const [folders, setFolders] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -39,6 +41,7 @@ export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 
         setOptions(s.infoLanguages ?? [])
         setCountry(s.releaseCountry ?? '')
         setCountries(s.releaseCountries ?? [])
+        setFolders(s.foldersInInfoLanguage ?? false)
       })
       .catch((e) => setError(e instanceof Error ? e.message : String(e)))
   }, [])
@@ -50,6 +53,19 @@ export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 
       setValue(tag)
       const name = options.find((o) => o.tag === tag)?.name ?? tag
       toast.success(t('Saved. Discover, search and title pages now use {language}.', { language: name }))
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : String(e))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function chooseFolders(on: boolean) {
+    setBusy(true)
+    try {
+      await api.putSettings({ foldersInInfoLanguage: on })
+      setFolders(on)
+      toast.success(on ? t('Saved. New movie and show folders use the title in this language.') : t('Saved. New movie and show folders use the English title.'))
     } catch (e) {
       toast.error(e instanceof Error ? e.message : String(e))
     } finally {
@@ -105,7 +121,13 @@ export default function InfoLanguageCard({ headingLevel = 2 }: { headingLevel?: 
           <Icon name="globe" size={14} /> {t('Use {language}, like the screen', { language: suggestedName })}
         </button>
       )}
-      <p className="field-hint">{t('Your files and folders always use the English title, so changing this never renames anything.')}</p>
+      <Switch
+        checked={folders}
+        onChange={(on) => void chooseFolders(on)}
+        disabled={busy}
+        label={t('Name new movie and show folders in this language')}
+        description={t("A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.")}
+      />
       {error && <p className="error-text">{error}</p>}
     </section>
   )

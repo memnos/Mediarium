@@ -96,6 +96,9 @@ type searchResultPayload struct {
 	// named by ("Der Herr der Ringe"), when it is not named by the main one.
 	// Only set for a search on a library item.
 	MatchedTitle string `json:"matchedTitle,omitempty"`
+	// Categories are the indexer's category numbers of the release. Only set for
+	// a book search, where the list shows them.
+	Categories []int `json:"categories,omitempty"`
 }
 
 // toSearchResultPayload builds a search result for the UI. Its download URL

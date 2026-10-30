@@ -73,7 +73,7 @@ The keys the app stores in its settings table. You normally change these from th
 | `formats.trash_last_check` | what the last check of the TRaSH Guides found, as JSON (shown under the switch on the Custom formats card) |
 | `formats.trash_last_update` | when the TRaSH Guides were last read for the daily update (RFC 3339) |
 | `import.check_duration` | "0" turns off the check that a video is about as long as its episode or movie before it is imported (Settings > Library > File names and importing); anything else, including unset, leaves it on |
-| `info.language` | the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); file and folder names always use the English title |
+| `info.language` | the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); with naming.folders_in_info_language on, new movie and show folders and file names use that language's title too |
 | `info.release_country` | the country release dates are read for, as a code like "IN"; unset = the country of the info language |
 | `legal.acknowledged_at` |  |
 | `library.default_profile_id` | id of the stored quality profile used by items with no profile of their own |
@@ -132,6 +132,7 @@ The keys the app stores in its settings table. You normally change these from th
 | `music.lyrics_online` | "0" stops the player asking LRCLIB for lyrics a file doesn't have; anything else (including unset) leaves it on |
 | `music.path` | music library folder; falls back to the MUSIC_DIR env default (/music) when unset |
 | `music.show_types` | release types the artist pages list and following adds, a comma separated list of album, ep, single; unset = all three |
+| `naming.folders_in_info_language` | "1" names new movie and show folders and files with the title in the info language; unset or "0" keeps the English title |
 | `network.proxy` | e.g. "socks5://user:pass@10.0.0.2:1080" |
 | `network.proxy_for` | e.g. "torrents,indexers" |
 | `notify.digest_day` | the day of the weekly summary, "0" (Sunday) to "6"; unset = no summary |

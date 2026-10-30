@@ -32,10 +32,10 @@ func (s *Server) infoLanguage() string {
 }
 
 // displayTMDB is the TMDB client for what is read on screen: Discover, search
-// results and title pages, in the chosen language. Anything that names a file
-// or folder, or searches an indexer for a title, uses TMDB() instead, which
-// always asks in English, so choosing another language never renames or
-// re-searches anything.
+// results and title pages, in the chosen language. New movie and show folders
+// and file names use that title too (folder_title.go). The titles searched
+// for on indexers use TMDB() instead, which always asks in English, so
+// choosing another language never re-searches anything.
 func (s *Server) displayTMDB() *metadata.Client {
 	return s.TMDB().Localized(s.infoLanguage())
 }

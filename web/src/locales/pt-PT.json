@@ -6786,7 +6786,6 @@
   "Your debrid service already has this torrent, so it starts at once": "O seu serviço debrid já tem este torrent, por isso começa logo",
   "Your details": "Os seus dados",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "A sua pasta de downloads está em um disco ou partilhamento diferente de {what}, então cada ficheiro é copiado para a biblioteca em vez de movido. Funciona, só que um pouco mais devagar.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Os seus ficheiros e pastas usam sempre o título em inglês, por isso mudar isto nunca renomeia nada.",
   "Your files stay where they are": "Os seus ficheiros ficam onde estão",
   "Your formats": "Os seus formatos",
   "Your home network": "A sua rede de casa",
@@ -7695,5 +7694,19 @@
   "UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.": "Os trackers UDP e o DHT podem passar pela VPN integrada. O interruptor está em Definições > A transferir > VPN e proxy, desligado até o ligar, e os nomes dos trackers também são procurados através da VPN.",
   "VPN": "VPN",
   "Torrents wait instead of connecting without the tunnel. A proxy for torrents (below) counts too. uTP stays off through the tunnel.": "Os torrents esperam em vez de se ligarem sem o túnel. Um proxy para torrents (abaixo) também conta. O uTP fica desligado através do túnel.",
-  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "Esta ligação não lista trackers. O DHT passou pela VPN e mesmo assim não encontrou pares. Tente outra versão."
+  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "Esta ligação não lista trackers. O DHT passou pela VPN e mesmo assim não encontrou pares. Tente outra versão.",
+  "Naming new movie and show folders and files in the info language, written as a pull request": "Dar nome às pastas e aos ficheiros novos de filmes e séries no idioma da informação, escrito como pull request",
+  "Saved. New movie and show folders use the title in this language.": "Guardado. As pastas novas de filmes e séries usam o título neste idioma.",
+  "Saved. New movie and show folders use the English title.": "Guardado. As pastas novas de filmes e séries usam o título em inglês.",
+  "Name new movie and show folders in this language": "Dar nome às pastas novas de filmes e séries neste idioma",
+  "A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.": "Um filme ou série novo recebe uma pasta e um ficheiro com o título mostrado aqui, como Der Pate (1972). Um título que já tem ficheiros mantém a pasta, e as pesquisas nos indexadores continuam em inglês. O Plex e o Jellyfin reconhecem pelo nome da pasta, por isso confirme a sua biblioteca depois de ativar.",
+  "New movie and show folders can use the translated title, like Der Pate (1972). It's off until you switch it on under Settings, in the card for the language of movie and show info.": "As pastas novas de filmes e séries podem usar o título traduzido, como Der Pate (1972). Fica desativado até o ativar em Definições, no cartão do idioma da informação de filmes e séries.",
+  "Category {numbers}": "Categoria {numbers}",
+  "The category shown under each book release": "A categoria por baixo de cada lançamento de livro",
+  "Episode by episode meaning one episode at a time": "«Episódio a episódio» a significar mesmo um episódio de cada vez",
+  "{size} left": "faltam {size}",
+  "Added up over everything in the list below": "Soma de tudo o que está na lista abaixo",
+  "The total speed and what is left in each download client": "A velocidade total e o que falta em cada cliente de transferências",
+  "The service a subtitle came from, shown in Activity": "O serviço de onde veio uma legenda, mostrado em Atividade",
+  "Searching titles with umlauts in both spellings": "Pesquisar títulos com trema nas duas grafias"
 }

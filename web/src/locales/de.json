@@ -6786,7 +6786,6 @@
   "Your debrid service already has this torrent, so it starts at once": "Dein Debrid-Dienst hat diesen Torrent schon, deshalb startet er sofort",
   "Your details": "Deine Angaben",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Dein Download-Ordner liegt auf einem anderen Laufwerk oder einer anderen Freigabe als dein {what}. Deshalb wird jede Datei in die Bibliothek kopiert statt verschoben. Das funktioniert, ist nur etwas langsamer.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Deine Dateien und Ordner verwenden immer den englischen Titel, deshalb wird durch eine Änderung nie etwas umbenannt.",
   "Your files stay where they are": "Deine Dateien bleiben, wo sie sind",
   "Your formats": "Deine Formate",
   "Your home network": "Dein Heimnetzwerk",
@@ -7695,5 +7694,19 @@
   "UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.": "UDP-Tracker und DHT können durch das eingebaute VPN gehen. Der Schalter ist unter Einstellungen > Downloads > VPN und Proxy, aus bis du ihn einschaltest, und die Trackernamen werden auch über das VPN aufgelöst.",
   "VPN": "VPN",
   "Torrents wait instead of connecting without the tunnel. A proxy for torrents (below) counts too. uTP stays off through the tunnel.": "Torrents warten, statt sich ohne den Tunnel zu verbinden. Ein Proxy für Torrents (unten) zählt auch. uTP bleibt im Tunnel aus.",
-  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "Dieser Link nennt keine Tracker. DHT lief durch das VPN und hat trotzdem keine Peers gefunden. Versuch ein anderes Release."
+  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "Dieser Link nennt keine Tracker. DHT lief durch das VPN und hat trotzdem keine Peers gefunden. Versuch ein anderes Release.",
+  "Naming new movie and show folders and files in the info language, written as a pull request": "Neue Film- und Serienordner und Dateien in der Infosprache benennen, als Pull Request geschrieben",
+  "Saved. New movie and show folders use the title in this language.": "Gespeichert. Neue Film- und Serienordner verwenden den Titel in dieser Sprache.",
+  "Saved. New movie and show folders use the English title.": "Gespeichert. Neue Film- und Serienordner verwenden den englischen Titel.",
+  "Name new movie and show folders in this language": "Neue Film- und Serienordner in dieser Sprache benennen",
+  "A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.": "Ein neuer Film oder eine neue Serie bekommt einen Ordner und eine Datei mit dem hier angezeigten Titel, zum Beispiel Der Pate (1972). Ein Titel, der schon Dateien hat, behält seinen Ordner, und die Suche bei den Indexern bleibt auf Englisch. Plex und Jellyfin ordnen nach dem Ordnernamen zu, prüfe also nach dem Einschalten deine Bibliothek.",
+  "New movie and show folders can use the translated title, like Der Pate (1972). It's off until you switch it on under Settings, in the card for the language of movie and show info.": "Neue Film- und Serienordner können den übersetzten Titel verwenden, zum Beispiel Der Pate (1972). Das ist aus, bis du es unter Einstellungen in der Karte für die Sprache der Film- und Serieninfos einschaltest.",
+  "Category {numbers}": "Kategorie {numbers}",
+  "The category shown under each book release": "Die Kategorie unter jeder Buch-Veröffentlichung",
+  "Episode by episode meaning one episode at a time": "„Episode für Episode“ heißt wirklich eine Episode nach der anderen",
+  "{size} left": "noch {size}",
+  "Added up over everything in the list below": "Zusammengerechnet für alles in der Liste darunter",
+  "The total speed and what is left in each download client": "Die Gesamtgeschwindigkeit und der Rest in jedem Download-Client",
+  "The service a subtitle came from, shown in Activity": "Der Dienst, von dem ein Untertitel kam, in der Aktivität",
+  "Searching titles with umlauts in both spellings": "Titel mit Umlauten in beiden Schreibweisen suchen"
 }

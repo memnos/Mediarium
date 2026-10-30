@@ -71,6 +71,9 @@ type NewznabClient struct {
 	BaseURL    string // e.g. https://api.example.com
 	APIKey     string
 	httpClient *http.Client
+	// ExtraRequests is how many further pages the last Search asked for, so the
+	// caller can count them against the indexer's daily limit.
+	ExtraRequests int
 }
 
 func NewNewznabClient(name, baseURL, apiKey string) *NewznabClient {
@@ -127,12 +130,44 @@ func (c *NewznabClient) Search(ctx context.Context, query string, categories []i
 		q.Set("cat", strings.Join(cats, ","))
 	}
 
-	body, err := c.get(ctx, q)
-	if err != nil {
-		return nil, err
+	// An indexer answers with a page of its own choosing when no size is asked
+	// for (50 or 60 on some), so ask for a full page and read on while the feed
+	// says there is more.
+	q.Set("limit", strconv.Itoa(newznabPageSize))
+	c.ExtraRequests = 0
+	var all []Result
+	for page := 0; ; page++ {
+		if page > 0 {
+			q.Set("offset", strconv.Itoa(len(all)))
+		}
+		body, err := c.get(ctx, q)
+		if err != nil {
+			if page > 0 {
+				return all, nil // the first page is still worth showing
+			}
+			return nil, err
+		}
+		results, total, err := parseNewznabPage(body, c.Name, c.APIKey)
+		if err != nil {
+			if page > 0 {
+				return all, nil
+			}
+			return nil, err
+		}
+		all = append(all, results...)
+		if len(results) == 0 || total <= len(all) || page+1 >= newznabMaxPages {
+			return all, nil
+		}
+		c.ExtraRequests++
 	}
-	return parseNewznabFeed(body, c.Name, c.APIKey)
 }
+
+const (
+	// newznabPageSize is the number of releases asked for in one request.
+	newznabPageSize = 100
+	// newznabMaxPages is how many pages one search reads at most.
+	newznabMaxPages = 3
+)
 
 // Caps asks for the indexer's capabilities (t=caps). It is the cheapest
 // question an indexer answers, and it needs a right API key, so it tells
@@ -299,6 +334,13 @@ func looksLikeWebPage(body []byte) bool {
 // or an <error> element saying why there are none. apiKey, when the reply
 // repeats it, is hidden in any message returned.
 func parseNewznabFeed(body []byte, indexerName, apiKey string) ([]Result, error) {
+	results, _, err := parseNewznabPage(body, indexerName, apiKey)
+	return results, err
+}
+
+// parseNewznabPage is parseNewznabFeed that also returns the total number of
+// releases the indexer says it has for the search (0 when it does not say).
+func parseNewznabPage(body []byte, indexerName, apiKey string) ([]Result, int, error) {
 	var feed newznabRSS
 	var err error
 	if feed.Channel, err = decodeNewznabFeed(body); err != nil {
@@ -310,16 +352,16 @@ func parseNewznabFeed(body []byte, indexerName, apiKey string) ([]Result, error)
 			Description string   `xml:"description,attr"`
 		}
 		if xml.Unmarshal(body, &apiErr) == nil && apiErr.Description != "" {
-			return nil, fmt.Errorf("newznab error from %s: %s (code %s)", indexerName, maskSecret(truncate(apiErr.Description, 300), apiKey), truncate(apiErr.Code, 20))
+			return nil, 0, fmt.Errorf("newznab error from %s: %s (code %s)", indexerName, maskSecret(truncate(apiErr.Description, 300), apiKey), truncate(apiErr.Code, 20))
 		}
 		if looksLikeWebPage(body) {
-			return nil, fmt.Errorf("%s answered with a web page, not an indexer feed. Check the address: it must be the indexer's API address, not the site's home page. For an indexer in Prowlarr, open it in Prowlarr and copy its Torznab or Newznab feed address (it looks like http://192.168.1.10:9696/5/api), and use Prowlarr's API key. Or copy all your Prowlarr indexers at once under Settings > System > Move from other apps", indexerName)
+			return nil, 0, fmt.Errorf("%s answered with a web page, not an indexer feed. Check the address: it must be the indexer's API address, not the site's home page. For an indexer in Prowlarr, open it in Prowlarr and copy its Torznab or Newznab feed address (it looks like http://192.168.1.10:9696/5/api), and use Prowlarr's API key. Or copy all your Prowlarr indexers at once under Settings > System > Move from other apps", indexerName)
 		}
 		// the parser quotes the text it stopped at, which could hold the key
-		return nil, fmt.Errorf("parse newznab response from %s: %s", indexerName, maskSecret(err.Error(), apiKey))
+		return nil, 0, fmt.Errorf("parse newznab response from %s: %s", indexerName, maskSecret(err.Error(), apiKey))
 	}
 	if feed.Channel.Error.Description != "" {
-		return nil, fmt.Errorf("newznab error from %s: %s", indexerName, maskSecret(truncate(feed.Channel.Error.Description, 300), apiKey))
+		return nil, 0, fmt.Errorf("newznab error from %s: %s", indexerName, maskSecret(truncate(feed.Channel.Error.Description, 300), apiKey))
 	}
 
 	items := feed.Channel.Items
@@ -327,7 +369,7 @@ func parseNewznabFeed(body []byte, indexerName, apiKey string) ([]Result, error)
 	for _, item := range items {
 		results = append(results, item.toResult(indexerName))
 	}
-	return results, nil
+	return results, feed.Channel.Total, nil
 }
 
 // maxNewznabItems is how many releases of one reply are used.
@@ -402,6 +444,15 @@ func decodeNewznabChannel(dec *xml.Decoder, ch *newznabChannel) (full bool, err 
 				if err := dec.DecodeElement(&ch.Error, &t); err != nil {
 					return false, err
 				}
+			case "response":
+				for _, at := range t.Attr {
+					if at.Name.Local == "total" {
+						ch.Total, _ = strconv.Atoi(strings.TrimSpace(at.Value))
+					}
+				}
+				if err := dec.Skip(); err != nil {
+					return false, err
+				}
 			default:
 				if err := dec.Skip(); err != nil {
 					return false, err
@@ -421,6 +472,7 @@ type newznabRSS struct {
 
 type newznabChannel struct {
 	Items []newznabItem `xml:"item"`
+	Total int           // from <newznab:response total="..."/>, 0 when the feed has none
 	Error newznabAPIErr `xml:"error"`
 }
 

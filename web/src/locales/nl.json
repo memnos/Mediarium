@@ -6786,7 +6786,6 @@
   "Your debrid service already has this torrent, so it starts at once": "Je debrid-dienst heeft deze torrent al, dus hij start meteen",
   "Your details": "Je gegevens",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Je downloadmap staat op een andere schijf of share dan je {what}, dus elk bestand wordt naar de bibliotheek gekopieerd in plaats van verplaatst. Het werkt, alleen iets langzamer.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Je bestanden en mappen gebruiken altijd de Engelse titel, dus als je dit verandert wordt er nooit iets hernoemd.",
   "Your files stay where they are": "Je bestanden blijven waar ze zijn",
   "Your formats": "Jouw formaten",
   "Your home network": "Je thuisnetwerk",
@@ -7685,5 +7684,19 @@
   "{why}, so it stays on Prowlarr: added as Prowlarr’s own feed for it, with Prowlarr’s API key": "{why}, dus het blijft bij Prowlarr: toegevoegd als de eigen feed van Prowlarr ervoor, met de API-sleutel van Prowlarr",
   "…and {n} more": "…en nog {n}",
   "← Back to the list": "← Terug naar de lijst",
-  "✓ in the video": "✓ in de video"
+  "✓ in the video": "✓ in de video",
+  "Naming new movie and show folders and files in the info language, written as a pull request": "Nieuwe film- en seriemappen en bestanden benoemen in de infotaal, geschreven als pull request",
+  "Saved. New movie and show folders use the title in this language.": "Opgeslagen. Nieuwe film- en seriemappen gebruiken de titel in deze taal.",
+  "Saved. New movie and show folders use the English title.": "Opgeslagen. Nieuwe film- en seriemappen gebruiken de Engelse titel.",
+  "Name new movie and show folders in this language": "Nieuwe film- en seriemappen in deze taal benoemen",
+  "A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.": "Een nieuwe film of serie krijgt een map en een bestand met de titel die hier staat, zoals Der Pate (1972). Een titel die al bestanden heeft, houdt zijn map, en het zoeken bij de indexers blijft in het Engels. Plex en Jellyfin herkennen titels aan de mapnaam, dus controleer je bibliotheek nadat je dit aanzet.",
+  "New movie and show folders can use the translated title, like Der Pate (1972). It's off until you switch it on under Settings, in the card for the language of movie and show info.": "Nieuwe film- en seriemappen kunnen de vertaalde titel gebruiken, zoals Der Pate (1972). Het staat uit tot je het aanzet onder Instellingen, in de kaart voor de taal van film- en serie-info.",
+  "Category {numbers}": "Categorie {numbers}",
+  "The category shown under each book release": "De categorie onder elke boekrelease",
+  "Episode by episode meaning one episode at a time": "‘Aflevering voor aflevering’ die ook echt één aflevering per keer betekent",
+  "{size} left": "nog {size}",
+  "Added up over everything in the list below": "Opgeteld over alles in de lijst hieronder",
+  "The total speed and what is left in each download client": "De totale snelheid en wat er nog over is in elke downloadclient",
+  "The service a subtitle came from, shown in Activity": "De dienst waar een ondertitel vandaan kwam, getoond in Activiteit",
+  "Searching titles with umlauts in both spellings": "Titels met umlauts in beide spellingen zoeken"
 }

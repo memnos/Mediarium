@@ -145,7 +145,7 @@ For scripts: the switch is the setting `subtitles.wizdom` (`subtitleWizdom` in `
 - A `forced` file (foreign-language lines only) is kept as `Movie.en.forced.srt` and doesn't count as a full subtitle. A `sdh` (hearing-impaired) file is kept as `Movie.en.sdh.srt` and counts as a full subtitle unless you chose [**Normal only**](#normal-sdh-and-forced-subtitles) for that language.
 - In a season pack, a subtitle goes to the episode named in its file name or folder (`S01E02`). One that names no episode is skipped rather than guessed. In a single-episode or movie download, the subtitles belong to that video.
 - Sample clips are ignored. Existing files are never overwritten, and nothing in the download folder is changed or deleted.
-- Activity records it, for example: `Movie imported with 2 subtitle file(s): en, fr`.
+- Activity records it, for example: `Movie imported with 2 subtitle file(s): en, fr`. A subtitle Mediarium downloads is logged with the service it came from, for example `Downloaded en subtitle for Heat from SubDL`, so you can see over time which service gives you the most.
 
 ## Getting subtitles from OpenSubtitles
 

@@ -370,6 +370,20 @@ func (s *Server) subtitleData(ctx context.Context, it subtitleItem, pick subtitl
 	return s.Subtitles().DownloadFile(ctx, info.Link)
 }
 
+// subtitleSourceName is the service a subtitle came from, for the Activity line:
+// it shows which of them is worth keeping.
+func subtitleSourceName(source string) string {
+	switch source {
+	case subtitles.SourceSubDL:
+		return "SubDL"
+	case subtitles.SourceWizdom:
+		return "Wizdom"
+	case subtitles.SourceAddon:
+		return "an add-on"
+	}
+	return "OpenSubtitles"
+}
+
 func (s *Server) writeSubtitle(ctx context.Context, it subtitleItem, lang string, pick subtitlePick) (string, error) {
 	pick.lang = lang
 	data, err := s.subtitleData(ctx, it, pick)
@@ -406,9 +420,9 @@ func (s *Server) writeSubtitle(ctx context.Context, it subtitleItem, lang string
 	case subtitles.VariantSDH:
 		what += " SDH"
 	}
-	subtitleMessage := fmt.Sprintf("Downloaded %s subtitle for %s", what, name)
+	subtitleMessage := fmt.Sprintf("Downloaded %s subtitle for %s from %s", what, name, subtitleSourceName(pick.source))
 	if pick.upgrade {
-		subtitleMessage = fmt.Sprintf("Swapped the %s subtitle for %s for one made for this exact file", what, name)
+		subtitleMessage = fmt.Sprintf("Swapped the %s subtitle for %s for one made for this exact file, from %s", what, name, subtitleSourceName(pick.source))
 	}
 	_ = s.QueueRepo.LogActivity(movieID, "subtitle", subtitleMessage)
 	subItem := notify.Item{Media: it.kind, Title: it.title, Language: subtitles.LanguageLabel(lang), Path: path}

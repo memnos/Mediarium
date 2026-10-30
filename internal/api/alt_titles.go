@@ -125,7 +125,7 @@ func (s *Server) refreshTitleNames(ctx context.Context, kind string, tmdbID int,
 			return nil, err
 		}
 	}
-	names := metadata.ExtraTitles(src, english, nameLanguageCodes(list, src.OriginalLanguage), metadata.MaxExtraTitles)
+	names := metadata.WithUmlautSpellings(metadata.ExtraTitles(src, english, nameLanguageCodes(list, src.OriginalLanguage), metadata.MaxExtraTitles))
 	if err := s.MovieRepo.SaveTitleNames(kind, tmdbID, names, list, time.Now()); err != nil {
 		return names, err
 	}

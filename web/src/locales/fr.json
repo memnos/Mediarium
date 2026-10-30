@@ -6786,7 +6786,6 @@
   "Your debrid service already has this torrent, so it starts at once": "Votre service debrid a déjà ce torrent, donc il démarre tout de suite",
   "Your details": "Vos informations",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Votre dossier de téléchargements est sur un autre disque ou partage que votre {what}, donc chaque fichier est copié dans la bibliothèque au lieu d'être déplacé. Ça marche, juste un peu plus lentement.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Vos fichiers et dossiers gardent toujours le titre anglais : changer ceci ne renomme jamais rien.",
   "Your files stay where they are": "Vos fichiers restent où ils sont",
   "Your formats": "Vos formats",
   "Your home network": "Votre réseau domestique",
@@ -7685,5 +7684,19 @@
   "{why}, so it stays on Prowlarr: added as Prowlarr’s own feed for it, with Prowlarr’s API key": "{why}, il reste donc sur Prowlarr : ajouté comme flux propre de Prowlarr, avec la clé d’API de Prowlarr",
   "…and {n} more": "…et {n} de plus",
   "← Back to the list": "← Retour à la liste",
-  "✓ in the video": "✓ dans la vidéo"
+  "✓ in the video": "✓ dans la vidéo",
+  "Naming new movie and show folders and files in the info language, written as a pull request": "Nommer les nouveaux dossiers et fichiers de films et de séries dans la langue des infos, écrit sous forme de pull request",
+  "Saved. New movie and show folders use the title in this language.": "Enregistré. Les nouveaux dossiers de films et de séries utilisent le titre dans cette langue.",
+  "Saved. New movie and show folders use the English title.": "Enregistré. Les nouveaux dossiers de films et de séries utilisent le titre anglais.",
+  "Name new movie and show folders in this language": "Nommer les nouveaux dossiers de films et de séries dans cette langue",
+  "A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.": "Un nouveau film ou une nouvelle série reçoit un dossier et un fichier nommés avec le titre affiché ici, comme Der Pate (1972). Un titre qui a déjà des fichiers garde son dossier, et les recherches chez les indexeurs restent en anglais. Plex et Jellyfin reconnaissent les titres par le nom du dossier : vérifiez votre bibliothèque après l'avoir activé.",
+  "New movie and show folders can use the translated title, like Der Pate (1972). It's off until you switch it on under Settings, in the card for the language of movie and show info.": "Les nouveaux dossiers de films et de séries peuvent utiliser le titre traduit, comme Der Pate (1972). C'est désactivé tant que vous ne l'activez pas dans Réglages, dans la carte de la langue des infos sur les films et séries.",
+  "Category {numbers}": "Catégorie {numbers}",
+  "The category shown under each book release": "La catégorie sous chaque release de livre",
+  "Episode by episode meaning one episode at a time": "« Épisode par épisode » qui veut vraiment dire un épisode à la fois",
+  "{size} left": "{size} restants",
+  "Added up over everything in the list below": "Total de tout ce qui est dans la liste ci-dessous",
+  "The total speed and what is left in each download client": "La vitesse totale et ce qui reste dans chaque client de téléchargement",
+  "The service a subtitle came from, shown in Activity": "Le service d'où vient un sous-titre, affiché dans Activité",
+  "Searching titles with umlauts in both spellings": "Chercher les titres à trémas dans les deux graphies"
 }

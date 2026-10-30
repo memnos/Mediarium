@@ -714,6 +714,7 @@ export interface Settings {
   trailerSound?: boolean // start that trailer with its sound on (off by default)
   unmonitorDownloaded?: boolean // stop monitoring a movie once it is downloaded (off by default)
   unmonitorFinished?: boolean // stop monitoring a show once it has ended and every episode is in (off by default)
+  foldersInInfoLanguage?: boolean // name new movie and show folders and files with the title in the info language (off by default)
   seasonPacks?: boolean // look for a season pack once a season has ended (off by default)
   tvmazeAirTimes?: boolean // look up the time episodes air on TVmaze (on by default; off = TVmaze is never contacted)
   hasOpenSubtitlesAccount?: boolean
@@ -1173,6 +1174,8 @@ export interface SearchResult {
   // The other title of the movie or show the release is named by ("Der Herr der
   // Ringe"), when it is not the main one. Only set for a search on a library item.
   matchedTitle?: string
+  // The indexer's category numbers of the release. Only set for a book search.
+  categories?: number[]
 }
 
 export type MediaStatus = 'missing' | 'downloading' | 'downloaded'

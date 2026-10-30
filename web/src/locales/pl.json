@@ -6872,7 +6872,6 @@
   "Your debrid service already has this torrent, so it starts at once": "Twoja usługa debrid ma już ten torrent, więc zaczyna się od razu",
   "Your details": "Twoje dane",
   "Your downloads folder is on a different drive or share than your {what}, so each file is copied into the library instead of moved. It works, just a bit slower.": "Twój folder pobierania jest na innym dysku lub udziale niż {what}, więc każdy plik jest kopiowany do biblioteki zamiast przenoszony. Działa, tylko trochę wolniej.",
-  "Your files and folders always use the English title, so changing this never renames anything.": "Twoje pliki i foldery zawsze używają angielskiego tytułu, więc zmiana tego niczego nie przemianuje.",
   "Your files stay where they are": "Twoje pliki zostają tam, gdzie są",
   "Your formats": "Twoje formaty",
   "Your home network": "Twoja sieć domowa",
@@ -7895,5 +7894,19 @@
   "…and {n} more": "…i jeszcze {n}",
   "…and {n} more|few": "…i jeszcze {n}",
   "← Back to the list": "← Wróć do listy",
-  "✓ in the video": "✓ w filmie"
+  "✓ in the video": "✓ w filmie",
+  "Naming new movie and show folders and files in the info language, written as a pull request": "Nazywanie nowych folderów i plików filmów i seriali w języku informacji, napisane jako pull request",
+  "Saved. New movie and show folders use the title in this language.": "Zapisano. Nowe foldery filmów i seriali używają tytułu w tym języku.",
+  "Saved. New movie and show folders use the English title.": "Zapisano. Nowe foldery filmów i seriali używają tytułu angielskiego.",
+  "Name new movie and show folders in this language": "Nazywaj nowe foldery filmów i seriali w tym języku",
+  "A new movie or show gets a folder and file named with the title shown here, like Der Pate (1972). A title that already has files keeps its folder, and indexer searches stay in English. Plex and Jellyfin match by folder name, so check your library after switching it on.": "Nowy film lub serial dostaje folder i plik nazwany tytułem widocznym tutaj, na przykład Der Pate (1972). Tytuł, który ma już pliki, zachowuje swój folder, a wyszukiwanie w indeksatorach pozostaje po angielsku. Plex i Jellyfin rozpoznają tytuły po nazwie folderu, więc po włączeniu sprawdź swoją bibliotekę.",
+  "New movie and show folders can use the translated title, like Der Pate (1972). It's off until you switch it on under Settings, in the card for the language of movie and show info.": "Nowe foldery filmów i seriali mogą używać przetłumaczonego tytułu, na przykład Der Pate (1972). Opcja jest wyłączona, dopóki jej nie włączysz w Ustawieniach, w karcie języka informacji o filmach i serialach.",
+  "Category {numbers}": "Kategoria {numbers}",
+  "The category shown under each book release": "Kategoria pod każdym wydaniem książki",
+  "Episode by episode meaning one episode at a time": "„Odcinek po odcinku” znaczące naprawdę jeden odcinek naraz",
+  "{size} left": "zostało {size}",
+  "Added up over everything in the list below": "Suma wszystkiego z listy poniżej",
+  "The total speed and what is left in each download client": "Łączna prędkość i to, co zostało w każdym kliencie pobierania",
+  "The service a subtitle came from, shown in Activity": "Usługa, z której pochodzi napis, widoczna w Aktywności",
+  "Searching titles with umlauts in both spellings": "Szukanie tytułów z umlautami w obu pisowniach"
 }

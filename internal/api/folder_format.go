@@ -43,11 +43,14 @@ func insideRoot(root, dir string) bool {
 
 // keepMovieFolder puts a movie's next file next to the one it already has,
 // when a custom folder format is in use: the format is for new movies, and a
-// movie that already has a folder keeps it. dest is the path the naming
-// settings gave; root is the library folder it was built in. With the default
-// folder format dest comes back unchanged, as it always was.
+// movie that already has a folder keeps it. The same applies when new folders
+// are named in the info language and that name differs from the English one:
+// a movie that already has files keeps the folder they are in, so changing
+// the language never moves them. dest is the path the naming settings gave;
+// root is the library folder it was built in. With the default folder format
+// and an English name, dest comes back unchanged, as it always was.
 func (s *Server) keepMovieFolder(m library.Movie, root, dest string) string {
-	if m.FilePath == "" || s.movieFolderFormat() == organizer.DefaultMovieFolder {
+	if m.FilePath == "" || (s.movieFolderFormat() == organizer.DefaultMovieFolder && !s.folderNameWouldChange(m.TMDBID, "movie", m.Title)) {
 		return dest
 	}
 	dir := filepath.Dir(m.FilePath)

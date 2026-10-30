@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, type ClientTorrent, type ClientTorrentsAnswer, type DebridTorrent, type DebridTorrentsAnswer, type UsenetClientJob, type UsenetClientJobsAnswer } from '../api'
 import { formatBytes, timeAgo } from '../format'
+import { clientTotals } from '../clientTotals'
 import { t, st } from '../i18n'
 import { etaText } from '../transferRate'
 import { useLive } from '../useLive'
@@ -55,6 +56,18 @@ export default function DownloadClients() {
   )
 }
 
+// The speed and what is left of everything in a client's list, in its heading.
+function TotalsText({ items, up }: { items: { sizeBytes: number; progress: number; downSpeed: number; upSpeed?: number }[]; up?: boolean }) {
+  const sum = clientTotals(items)
+  const parts = [
+    sum.downSpeed > 0 ? `↓ ${formatBytes(sum.downSpeed)}/s` : '',
+    up && sum.upSpeed > 0 ? `↑ ${formatBytes(sum.upSpeed)}/s` : '',
+    sum.leftBytes > 0 ? t('{size} left', { size: formatBytes(sum.leftBytes) }) : '',
+  ].filter(Boolean)
+  if (parts.length === 0) return null
+  return <span title={t('Added up over everything in the list below')}>{parts.join(' · ')}</span>
+}
+
 function ClientSection({ data, scope, setScope, reload }: { data: ClientTorrentsAnswer; scope: 'mine' | 'all'; setScope: (s: 'mine' | 'all') => void; reload: () => void }) {
   const label = data.label ?? t('The download client')
   return (
@@ -62,6 +75,7 @@ function ClientSection({ data, scope, setScope, reload }: { data: ClientTorrents
       <div className="rail-head">
         <h2>{label}</h2>
         <span>{data.torrents.length === 1 ? t('1 torrent') : t('{n} torrents', { n: data.torrents.length })}</span>
+        <TotalsText items={data.torrents} up />
         <div className="seg" role="group" aria-label={t('Which torrents to show')}>
           <button aria-pressed={scope === 'mine'} className={scope === 'mine' ? 'active' : ''} onClick={() => setScope('mine')} title={t('Only the torrents Mediarium added, the ones in the category "{name}"', { name: data.category ?? '' })}>
             {t('Added by Mediarium')}
@@ -237,6 +251,7 @@ export function UsenetClients() {
       <div className="rail-head">
         <h2>{label}</h2>
         <span>{data.jobs.length === 1 ? t('1 download') : t('{n} downloads', { n: data.jobs.length })}</span>
+        <TotalsText items={data.jobs} />
         {!data.active && <span className="badge">{t('switched off')}</span>}
         <div className="seg" role="group" aria-label={t('Which downloads to show')}>
           <button aria-pressed={scope === 'mine'} className={scope === 'mine' ? 'active' : ''} onClick={() => setScope('mine')} title={t('Only the downloads Mediarium sent, the ones in the category "{name}"', { name: data.category ?? '' })}>

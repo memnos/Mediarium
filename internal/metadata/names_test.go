@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"strings"
 	"sync/atomic"
 	"testing"
 
@@ -227,6 +228,24 @@ func TestTitleKeyReadsAmpersandsAndTheirEntity(t *testing.T) {
 	} {
 		if got := metadata.TitleKey(in); got != want {
 			t.Errorf("TitleKey(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
+func TestWithUmlautSpellings(t *testing.T) {
+	cases := []struct {
+		in, want []string
+	}{
+		{nil, []string{}},
+		{[]string{"Heat"}, []string{"Heat"}},
+		{[]string{"Sams im Glück"}, []string{"Sams im Glück", "Sams im Glueck"}},
+		{[]string{"Die Päpstin", "Fußball ÖSTERREICH"}, []string{"Die Päpstin", "Die Paepstin", "Fußball ÖSTERREICH", "Fussball OeSTERREICH"}},
+		{[]string{"Glück", "Glueck"}, []string{"Glück", "Glueck"}},
+	}
+	for _, c := range cases {
+		got := metadata.WithUmlautSpellings(c.in)
+		if strings.Join(got, "|") != strings.Join(c.want, "|") {
+			t.Errorf("WithUmlautSpellings(%q) = %q, want %q", c.in, got, c.want)
 		}
 	}
 }

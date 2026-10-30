@@ -54,7 +54,7 @@ Each book has a page with its cover, author, year and description, and a panel f
 - **Where it stands**: downloaded (with the file type and where the file is), downloading, or waiting for a release.
 - **Want the ebook / Want the audiobook**: switch a format off to stop looking for it, or on to start.
 - **Search now** looks for that format straight away and downloads the best release it finds.
-- **Choose a release** lists what your indexers have for the book, best first, so you can pick one yourself.
+- **Choose a release** lists what your indexers have for the book, best first, so you can pick one yourself. Under each release is the category number the indexer filed it in (for example 7020 or a German books category), so you can tell apart releases that look alike.
 - **Change cover** gives the book a cover of your own. See below.
 - **Remove** (administrators) takes the book out of your library. Tick **Also delete its files** to remove the ebook file and the audiobook folder as well. They go to the recycle bin first when it is on.
 

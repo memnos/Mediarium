@@ -51,6 +51,6 @@ func (s *Server) seriesFolderFor(sr library.Series, files []string) string {
 		return ""
 	}
 	mode, replacement := s.illegalCharSettings()
-	name := organizer.Sanitize(organizer.Render(s.seriesFolderFormat(), organizer.NamingContext{SeriesTitle: sr.Title, Year: sr.Year, TMDBID: sr.TMDBID}), mode, replacement)
+	name := organizer.Sanitize(organizer.Render(s.seriesFolderFormat(), organizer.NamingContext{SeriesTitle: s.folderTitle(sr.TMDBID, "tv", sr.Title), Year: sr.Year, TMDBID: sr.TMDBID}), mode, replacement)
 	return filepath.Join(root, name)
 }

@@ -13,6 +13,32 @@ under [Unreleased]. How releases are cut: [docs/RELEASING.md](docs/RELEASING.md)
 - A movie or show already in the library is shown in the language chosen for movie and show info (Settings > Info, lists and subtitles): the title and the poster in the Library, on the Dashboard, in Activity (a download and the waiting list), on the calendar, in reports, requests, statistics and notifications. Discover, search and the title page already were, including the description. The English title stays saved for indexer searches. Where TMDB has no translation or no poster in that language, the English one is kept. An episode's own name, a line already written in the activity history, and the file path stay as they are.
 - The note under a title that is waiting for a release (Activity) is translated with the language of the app. It was left in English.
 
+## [3.9.0] - 2026-10-30
+
+In short: new movie and show folders can use the info language, the release list no longer stops at 60 results, season packs follow your setting again, and Missing Movies in nzb360 skips unreleased titles. Client totals in Activity, the subtitle source and umlaut spellings in searches are new.
+
+### Fixed
+
+- nzb360's Missing Movies card no longer lists monitored movies that have not been released yet, which can't be downloaded (#94, reported by Bayharbourbutcher1)
+- Choose a release could show fewer releases than the indexer's own website, for example 60 of more than 120 for a popular film (#152, reported by mirisbowring). Newznab and Torznab indexers are now asked for 100 releases a page and read on, up to 300, when they say there are more. The extra pages count against the indexer's daily limit.
+- A show set to **Episode by episode** under Season packs was still fetched as a season pack when none of the season's episodes were in the library yet (#147, reported by mirisbowring). That setting, the default one and the show's own, now decides: episode by episode means one episode at a time. If you want a pack for a season that has nothing in it yet, switch on **Prefer season packs once a season has ended** in Settings or on the show. This changes what happens for shows that were left on the default.
+- A release list could keep showing a row the quality, indexer or word filter had removed (a 720p release under a 1080p filter, #146). It happened when two results in the list pointed to the same download, and each row now has its own identity.
+
+### Added
+
+- A German (or other) title with umlauts is also searched with them written out, "Sams im Glueck" next to "Sams im Glück", because release groups use both spellings. The title names are picked again by the usual background job, so existing titles get the extra spelling the next time they are refreshed. Suggested by mirisbowring, #148. Folder and file names are not changed by this.
+- Each download client in Activity shows, next to its number of downloads, the speed it is downloading at and how much is left. Suggested by nexus4004, #149.
+- The Activity line of a downloaded subtitle says which service it came from (OpenSubtitles, SubDL, Wizdom or an add-on), so you can see which one is worth keeping. Suggested by nexus4004, #150. Lines from before this version stay as they were.
+- The release list of a book shows the category number the indexer filed each release in, under the name. It helps to tell a German release from an English one when the indexer has a category for each. Suggested by mirisbowring, #128.
+
+### Changed
+
+- New movie and show folders and file names can use the title in the language chosen for movie and show info (Settings > Info, lists and subtitles), the same title shown on the title page. It is off until you switch on **Name new movie and show folders in this language** in that card (the install wizard has it too). A German library then gets `Die Matrix (1999)` instead of `The Matrix (1999)`, for the folder and for the file. Plex and Jellyfin match by folder name, so check your library after switching it on. Written by memnos on GitHub, #144. Where TMDB has no translation, the English title is used. A title that already has files keeps its folder, so changing the language never moves anything. The titles searched for on indexers stay in English. With **Keep the original file names** on, a file keeps the name it came with.
+
+### Security
+
+- Updated the `go-jose` library to 4.1.6, which fixes the advisories for sign-in token handling (GHSA-mgcc-cww5-fp2q and others).
+
 ## [3.8.2] - 2026-10-29
 
 In short: a security update to the libraries Mediarium uses to read ebook files. Nothing else changed.

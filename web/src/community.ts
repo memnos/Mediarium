@@ -50,11 +50,11 @@ export function helpers(): Helper[] {
     { name: 'anguyen1776', where: 'GitHub', href: github('anguyen1776'), ideas: [t('Different quality profiles for movies and TV, and finding missing episodes one season at a time')] },
     { name: 'varnakube', where: 'GitHub', href: github('varnakube'), ideas: [t('Picking a book by hand when it is not found during an import'), t("Setting a book's cover by hand")] },
     { name: 'SanketBaraiya', where: 'GitHub', href: github('SanketBaraiya'), ideas: [t('Importing anime that is numbered by TheTVDB seasons, such as One Piece'), t('Knaben as a built-in site')] },
-    { name: 'nexus4004', where: 'GitHub', href: github('nexus4004'), ideas: [t("Showing the folder where a title's files go"), t('Pointing a title at a file or folder you renamed'), t('Subtitles in Croatian and Serbian'), t('Rescanning a movie that has no file'), t('Library entries in the left menu'), t('The busy message as a small notice in the corner'), t('Preferring a season pack once a season has ended'), t('Importing your Simkl lists')] },
+    { name: 'nexus4004', where: 'GitHub', href: github('nexus4004'), ideas: [t("Showing the folder where a title's files go"), t('Pointing a title at a file or folder you renamed'), t('Subtitles in Croatian and Serbian'), t('Rescanning a movie that has no file'), t('Library entries in the left menu'), t('The busy message as a small notice in the corner'), t('Preferring a season pack once a season has ended'), t('Importing your Simkl lists'), t('The total speed and what is left in each download client'), t('The service a subtitle came from, shown in Activity')] },
     { name: 'Jisevind', where: 'GitHub', href: github('Jisevind'), ideas: [t('Keeping the original file names')] },
     { name: 'franciscojnneto', where: 'GitHub', href: github('franciscojnneto'), ideas: [t('Pages for cast and crew')] },
     { name: 'Bayharbourbutcher1', where: 'GitHub', href: github('Bayharbourbutcher1'), ideas: [t('Sending the seeding rules to an outside torrent client')] },
-    { name: 'mirisbowring', where: 'GitHub', href: github('mirisbowring'), ideas: [t('Replacing a movie with a smaller version'), t('Searching under another title of a movie or show, such as the German one'), t('Extra categories')] },
+    { name: 'mirisbowring', where: 'GitHub', href: github('mirisbowring'), ideas: [t('Replacing a movie with a smaller version'), t('Searching under another title of a movie or show, such as the German one'), t('Extra categories'), t('The category shown under each book release'), t('Episode by episode meaning one episode at a time'), t('Searching titles with umlauts in both spellings')] },
     { name: 'spamoom', where: 'GitHub', href: github('spamoom'), ideas: [t('Sending indexer traffic through the VPN, with the code to do it')] },
     { name: 'acortespr06', where: 'GitHub', href: github('acortespr06'), ideas: [t('Transmission as a download client')] },
     { name: 'MrBanditt', where: 'GitHub', href: github('MrBanditt'), ideas: [t('Ended and continuing shows, file sizes for episodes and seasons, an age column in the release list, a TMDB link on title pages and sorting titles without “The”')] },
@@ -67,6 +67,7 @@ export function helpers(): Helper[] {
       ideas: [t('Toloka.to as a built-in site'), t('Prowlarr feed addresses that end in /api'), t('Sites that write dates in their own way'), t('Torrent sites from Prowlarr added as Usenet'), t('Titles and descriptions in your language')],
     },
     { name: 'Marty-SK', where: 'GitHub', href: github('Marty-SK'), ideas: [t('Seeing whether the VPN really passes traffic, with a Test button')] },
+    { name: 'memnos', where: 'GitHub', href: github('memnos'), ideas: [t('Naming new movie and show folders and files in the info language, written as a pull request')] },
     { name: 'Joshuancsu', where: 'Reddit', href: reddit('Joshuancsu'), ideas: [t('Saying why a torrent was given up')] },
   ]
 }

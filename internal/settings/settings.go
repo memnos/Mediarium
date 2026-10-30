@@ -108,7 +108,7 @@ const (
 	KeyAutomationEnabled  = "automation.enabled"            // "0" disables; anything else (including unset) enables
 	KeyQualityProfile     = "library.quality_profile"       // legacy: an old preset key (any-1080p, ultra-hd, any); only read once to pick the initial default profile
 	KeyQualityLanguage    = "quality.language"              // the audio language wanted, as a name like "English" (the default when unset); a release clearly in another language only is not picked automatically
-	KeyInfoLanguage       = "info.language"                 // the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); file and folder names always use the English title
+	KeyInfoLanguage       = "info.language"                 // the language titles, plots, genres and posters are read in, as a TMDB tag like "de-DE" (en-US when unset); with naming.folders_in_info_language on, new movie and show folders and file names use that language's title too
 	KeyReleaseCountry     = "info.release_country"          // the country release dates are read for, as a code like "IN"; unset = the country of the info language
 	KeySubtitleAddons     = "subtitles.addons"              // subtitle add-ons (JSON list of {id, name, url}; the url can hold the person's own key for a site, so it is stored encrypted)
 	KeyDefaultSources     = "library.default_sources"       // usenet | torrent | both (default both)
@@ -116,6 +116,9 @@ const (
 	KeyDefaultProfileID   = "library.default_profile_id"    // id of the stored quality profile used by items with no profile of their own
 	KeyDefaultTVProfileID = "library.default_profile_id_tv" // id of the quality profile shows with none of their own use; unset = the same default as movies
 	KeyPresetsVersion     = "library.presets_version"       // revision of the built-in quality presets last applied; unset means never (set at start, not user-editable)
+
+	// Folder and file names.
+	KeyFoldersInInfoLanguage = "naming.folders_in_info_language" // "1" names new movie and show folders and files with the title in the info language; unset or "0" keeps the English title
 
 	// "Only take releases in these languages", next to quality.language.
 	KeyQualityLanguageOnly = "quality.language_only" // "1" takes only releases that say they are in a wanted audio language (no untagged, English-only or bare multi releases unless English is wanted); unset or "0" keeps those as a lower-ranked fallback

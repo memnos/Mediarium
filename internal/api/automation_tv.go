@@ -167,7 +167,9 @@ func (s *Server) tvWants(profiles profileSet, scope tvScope) (wants []tvWant, up
 			}
 			if len(missing) > 0 || plan != nil {
 				withNames()
-				wants = append(wants, tvWant{profile: profile, series: sr, season: season, episodes: missing, wholeSeason: whole, pack: plan})
+				// A season with nothing in it yet is fetched as a pack only for a show that
+				// takes packs; "episode by episode" means what it says.
+				wants = append(wants, tvWant{profile: profile, series: sr, season: season, episodes: missing, wholeSeason: whole && s.wantsSeasonPacks(sr), pack: plan})
 			}
 		}
 	}

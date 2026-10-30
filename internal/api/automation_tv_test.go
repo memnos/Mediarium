@@ -15,6 +15,7 @@ import (
 
 	"github.com/rdborg/mediarium/internal/api"
 	"github.com/rdborg/mediarium/internal/library"
+	"github.com/rdborg/mediarium/internal/settings"
 )
 
 type tvAutoEnv struct {
@@ -185,8 +186,38 @@ var wholeSeasonMissing = []episodeSpec{
 	{1, 3, "2020-01-15", library.StatusMissing, ""},
 }
 
+// seasonPacksOn switches on "Prefer season packs" in Settings, which is also what
+// lets a season with nothing in it yet be fetched as a pack.
+func seasonPacksOn(t *testing.T, env *tvAutoEnv) {
+	t.Helper()
+	if err := env.server.Settings.Set(settings.KeySeasonPacks, "1", false); err != nil {
+		t.Fatal(err)
+	}
+}
+
+// With season packs off (the default) a season with nothing in it is fetched
+// episode by episode, and so is one of a show that chose that for itself.
+func TestHuntTVFetchesEpisodesWhenSeasonPacksAreOff(t *testing.T) {
+	env := newTVAutoEnv(t, []string{s1e1WEB, s1e2WEB, sPack, otherE01}, wholeSeasonMissing)
+	env.server.TestHunt(context.Background())
+	env.finish(t)
+	requireTitles(t, env.grabbedTitles(t), s1e1WEB, s1e2WEB)
+}
+
+func TestHuntTVFetchesEpisodesForAShowSetToEpisodeByEpisode(t *testing.T) {
+	env := newTVAutoEnv(t, []string{s1e1WEB, s1e2WEB, sPack, otherE01}, wholeSeasonMissing)
+	seasonPacksOn(t, env)
+	if err := env.server.MovieRepo.SetSeriesSeasonPack(env.seriesID, library.SeasonPackOff); err != nil {
+		t.Fatal(err)
+	}
+	env.server.TestHunt(context.Background())
+	env.finish(t)
+	requireTitles(t, env.grabbedTitles(t), s1e1WEB, s1e2WEB)
+}
+
 func TestHuntTVGrabsSeasonPackWhenWholeSeasonMissing(t *testing.T) {
 	env := newTVAutoEnv(t, []string{s1e1WEB, s1e2WEB, sPack, otherE01}, wholeSeasonMissing)
+	seasonPacksOn(t, env)
 	env.server.TestHunt(context.Background())
 	requireTitles(t, env.grabbedTitles(t), sPack)
 
@@ -217,6 +248,7 @@ func TestHuntTVGrabsSeasonPackWhenWholeSeasonMissing(t *testing.T) {
 func TestTVAutomationRunsThatOverlapGrabOnce(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		env := newTVAutoEnv(t, []string{s1e1WEB, s1e2WEB, sPack, otherE01}, wholeSeasonMissing)
+		seasonPacksOn(t, env)
 		var wg sync.WaitGroup
 		for _, run := range []func(context.Context){env.server.TestHunt, env.server.TestRSSSync, env.server.TestHunt} {
 			wg.Add(1)
@@ -237,6 +269,7 @@ func TestTVAutomationRunsThatOverlapGrabOnce(t *testing.T) {
 // episodes are grabbed only after the pack has failed, never alongside it.
 func TestHuntTVFallsBackToEpisodesWhenThePackIsBad(t *testing.T) {
 	env := newTVAutoEnvWith(t, []string{s1e1WEB, s1e2WEB, sPack, otherE01}, wholeSeasonMissing, http.StatusOK, brokenNZB)
+	seasonPacksOn(t, env)
 	env.server.TestHunt(context.Background())
 	requireTitles(t, env.grabbedTitles(t), sPack)
 

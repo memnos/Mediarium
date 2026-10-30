@@ -13,10 +13,11 @@ import (
 )
 
 // GitHub #94: nzb360's "Radarr Missing Movies" card said "No results found"
-// although there were monitored movies without a file. Radarr lists every
-// monitored movie without a file, released or not, so a title that is only
-// "Waiting for a release" (no date yet, or a date still ahead) belongs there.
-func TestArrWantedMissingListsEveryMonitoredMovieWithoutAFile(t *testing.T) {
+// although there were monitored movies without a file. It now lists the
+// monitored movies without a file that are out (a title still "Waiting for a
+// release", with no date yet or a date ahead, is not missing: it can't be
+// downloaded, and nzb360 showed those as a to-do).
+func TestArrWantedMissingListsReleasedMonitoredMoviesWithoutAFile(t *testing.T) {
 	server, base, admin, _, _ := familyServer(t)
 	key := postJSON[map[string]any](t, admin, base+"/api/auth/api-keys", map[string]any{"name": "nzb360"}, http.StatusCreated)["key"].(string)
 	radarr := base + "/radarr/api/v3"
@@ -59,14 +60,14 @@ func TestArrWantedMissingListsEveryMonitoredMovieWithoutAFile(t *testing.T) {
 		want  []string // titles in the order returned
 		total int
 	}{
-		{"monitored, as the card asks", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending&includeMovie=true&monitored=true", []string{"Alpha Released", "Bravo Future", "Charlie No Date", "Golf Downloading"}, 4},
-		{"descending", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=descending&monitored=true", []string{"Golf Downloading", "Charlie No Date", "Bravo Future", "Alpha Released"}, 4},
-		{"no monitored filter", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending", []string{"Alpha Released", "Bravo Future", "Charlie No Date", "Golf Downloading"}, 4},
-		{"no parameters at all", "", []string{"Alpha Released", "Bravo Future", "Charlie No Date", "Golf Downloading"}, 4},
-		{"monitored=false adds the others", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending&monitored=false", []string{"Alpha Released", "Bravo Future", "Charlie No Date", "Delta Unmonitored", "Echo Unmonitored Future", "Golf Downloading"}, 6},
-		{"a sort key the app made up", "sortKey=whatever&sortDirection=ascending&monitored=true", []string{"Alpha Released", "Bravo Future", "Charlie No Date", "Golf Downloading"}, 4},
-		{"page 2 of size 3 keeps the total", "page=2&pageSize=3&sortKey=movieMetadata.sortTitle&sortDirection=ascending&monitored=true", []string{"Golf Downloading"}, 4},
-		{"page past the end", "page=5&pageSize=3&monitored=true", nil, 4},
+		{"monitored, as the card asks", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending&includeMovie=true&monitored=true", []string{"Alpha Released", "Golf Downloading"}, 2},
+		{"descending", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=descending&monitored=true", []string{"Golf Downloading", "Alpha Released"}, 2},
+		{"no monitored filter", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending", []string{"Alpha Released", "Golf Downloading"}, 2},
+		{"no parameters at all", "", []string{"Alpha Released", "Golf Downloading"}, 2},
+		{"monitored=false adds the others", "page=1&pageSize=20&sortKey=movieMetadata.sortTitle&sortDirection=ascending&monitored=false", []string{"Alpha Released", "Delta Unmonitored", "Golf Downloading"}, 3},
+		{"a sort key the app made up", "sortKey=whatever&sortDirection=ascending&monitored=true", []string{"Alpha Released", "Golf Downloading"}, 2},
+		{"page 2 of size 3 keeps the total", "page=2&pageSize=1&sortKey=movieMetadata.sortTitle&sortDirection=ascending&monitored=true", []string{"Golf Downloading"}, 2},
+		{"page past the end", "page=5&pageSize=3&monitored=true", nil, 2},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
@@ -90,7 +91,7 @@ func TestArrWantedMissingListsEveryMonitoredMovieWithoutAFile(t *testing.T) {
 		})
 	}
 
-	// The same movies are found by the other way an app can ask.
+	// The movie list itself still has every monitored movie without a file.
 	var viaMovie []string
 	for _, r := range list(arrCall(t, "GET", radarr+"/movie?monitored=true&hasFile=false", key, nil, http.StatusOK)) {
 		viaMovie = append(viaMovie, obj(r)["title"].(string))
@@ -100,22 +101,11 @@ func TestArrWantedMissingListsEveryMonitoredMovieWithoutAFile(t *testing.T) {
 		t.Errorf("/movie?monitored=true&hasFile=false gave %v", viaMovie)
 	}
 
-	// An unreleased movie keeps its real status in the movie object.
+	// A released movie says so in the movie object.
 	for _, r := range list(obj(arrCall(t, "GET", radarr+"/wanted/missing?monitored=true", key, nil, http.StatusOK))["records"]) {
 		rec := obj(r)
-		switch rec["title"] {
-		case "Bravo Future":
-			if rec["status"] != "announced" || rec["isAvailable"] != false {
-				t.Errorf("future movie: %v", fmt.Sprint(rec["status"], rec["isAvailable"]))
-			}
-		case "Charlie No Date":
-			if rec["status"] != "tba" {
-				t.Errorf("movie without a date: %v", rec["status"])
-			}
-		case "Alpha Released":
-			if rec["status"] != "released" || rec["isAvailable"] != true {
-				t.Errorf("released movie: %v", fmt.Sprint(rec["status"], rec["isAvailable"]))
-			}
+		if rec["title"] == "Alpha Released" && (rec["status"] != "released" || rec["isAvailable"] != true) {
+			t.Errorf("released movie: %v", fmt.Sprint(rec["status"], rec["isAvailable"]))
 		}
 	}
 }

@@ -438,6 +438,7 @@ func (s *Server) handleBookReleases(w http.ResponseWriter, r *http.Request) {
 	for _, res := range found.Results {
 		p := s.toSearchResultPayload(res)
 		p.Blocklisted = blocked[blocklist.Key(res.Title)]
+		p.Categories = res.Categories
 		out = append(out, p)
 	}
 	s.markCachedPayloads(r.Context(), out)

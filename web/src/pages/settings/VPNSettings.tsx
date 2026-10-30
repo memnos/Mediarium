@@ -343,8 +343,9 @@ function VPNSection() {
           onChange={discover.change}
           disabled={!discover.loaded || discover.saving}
           label={t('UDP trackers and DHT through the VPN')}
-          tip={t('Packets stay inside the VPN. Nothing is sent from your home address.')}
-          description={t('Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.')}
+          tip={t('Peers and trackers see the VPN address. Tracker and DHT names are looked up through the tunnel, and if that fails nothing is sent from your home address.')}
+          learnMore="downloads#udp-trackers-and-dht"
+          description={t("Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. Tracker and DHT names are looked up through the VPN's DNS, not from your home connection, and a failed lookup does not go out. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.")}
           showState
         />
         <Switch

@@ -587,7 +587,6 @@
   "Anime numbering and links": "Numerazione anime e link",
   "Anime series": "Serie anime",
   "Announcement style": "Stile degli annunci",
-  "Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.": "Gli annunci ai tracker UDP e le richieste DHT escono dal tunnel, così peer e tracker vedono l'indirizzo della VPN. Se è spento, quelli vengono saltati e restano solo i tracker HTTP. Un download già avviato tiene la scelta precedente finché non lo riprovi.",
   "Anonymous usage numbers": "Numeri di utilizzo anonimi",
   "Another drive: each file is copied and checked first, then removed from the old place. This takes about {time}, depending on your drives.": "Altro disco: ogni file viene prima copiato e controllato, poi rimosso dal vecchio posto. Ci vogliono circa {time}, a seconda dei dischi.",
   "Another name the releases use": "Un altro nome usato dalle release",
@@ -3563,7 +3562,6 @@
   "Overwrite only if the new file is better": "Sovrascrivi solo se il nuovo file è migliore",
   "Owner writes, others read (644 / 755)": "Il proprietario scrive, gli altri leggono (644 / 755)",
   "PIA hands out the address and key when you run the script. If the connection stops working later, run it again and add the new file.": "PIA fornisce indirizzo e chiave quando esegui lo script. Se più tardi la connessione smette di funzionare, eseguilo di nuovo e aggiungi il nuovo file.",
-  "Packets stay inside the VPN. Nothing is sent from your home address.": "I pacchetti restano dentro la VPN. Niente esce dall'indirizzo di casa.",
   "Page": "Pagina",
   "Page turn": "Cambio pagina",
   "Page {n} of {total}": "Pagina {n} di {total}",
@@ -7691,5 +7689,10 @@
   "{why}, so it stays on Prowlarr: added as Prowlarr’s own feed for it, with Prowlarr’s API key": "{why}, quindi resta su Prowlarr: aggiunto come feed di Prowlarr per questo, con la chiave API di Prowlarr",
   "…and {n} more": "…e altri {n}",
   "← Back to the list": "← Torna alla lista",
-  "✓ in the video": "✓ nel video"
+  "✓ in the video": "✓ nel video",
+  "Peers and trackers see the VPN address. Tracker and DHT names are looked up through the tunnel, and if that fails nothing is sent from your home address.": "Peer e tracker vedono l'indirizzo della VPN. I nomi dei tracker e del DHT vengono risolti attraverso il tunnel e, se non ci riesce, non esce nulla dall'indirizzo di casa.",
+  "Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. Tracker and DHT names are looked up through the VPN's DNS, not from your home connection, and a failed lookup does not go out. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.": "Gli annunci ai tracker UDP e le richieste DHT escono dal tunnel, così peer e tracker vedono l'indirizzo della VPN. I nomi dei tracker e del DHT vengono cercati nel DNS della VPN, non dalla connessione di casa, e una ricerca fallita non esce. Se è spento, quelli vengono saltati e restano solo i tracker HTTP. Un download già avviato tiene la scelta precedente finché non lo riprovi.",
+  "Optional. With the built-in VPN, UDP trackers and DHT stay off until you turn this on, which is why a torrent that only lists UDP trackers does not start. Names are looked up through the VPN too. Add the VPN itself later under Settings > Downloading > VPN and proxy, where you can change this.": "Facoltativo. Con la VPN integrata, tracker UDP e DHT restano spenti finché non lo accendi: per questo un torrent che elenca solo tracker UDP non parte. Anche i nomi vengono cercati attraverso la VPN. La VPN vera e propria la aggiungi dopo, in Impostazioni > Download > VPN e proxy, dove puoi cambiare anche questo.",
+  "UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.": "Tracker UDP e DHT possono passare dalla VPN integrata. L'interruttore è in Impostazioni > Download > VPN e proxy, spento finché non lo accendi, e anche i nomi dei tracker vengono cercati attraverso la VPN.",
+  "VPN": "VPN"
 }

@@ -7895,5 +7895,15 @@
   "…and {n} more": "…і ще {n}",
   "…and {n} more|few": "…і ще {n}",
   "← Back to the list": "← Назад до списку",
-  "✓ in the video": "✓ у відео"
+  "✓ in the video": "✓ у відео",
+  "UDP trackers and DHT through the VPN": "UDP-трекери і DHT через VPN",
+  "Saved: UDP trackers and DHT now go through the VPN.": "Збережено: UDP-трекери і DHT тепер ідуть через VPN.",
+  "Saved: UDP trackers and DHT stay off while the VPN is on.": "Збережено: UDP-трекери і DHT лишаються вимкненими, поки VPN увімкнено.",
+  "Peers and trackers see the VPN address. Tracker and DHT names are looked up through the tunnel, and if that fails nothing is sent from your home address.": "Піри і трекери бачать адресу VPN. Імена трекерів і DHT шукаються через тунель, і якщо це не вдається, з домашньої адреси нічого не надсилається.",
+  "Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. Tracker and DHT names are looked up through the VPN's DNS, not from your home connection, and a failed lookup does not go out. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.": "Анонси UDP-трекерам і запити DHT виходять через тунель, тож піри і трекери бачать адресу VPN. Імена трекерів і DHT шукаються в DNS VPN, а не з домашнього з'єднання, і невдалий пошук не виходить назовні. Поки це вимкнено, їх пропускають і лишаються лише HTTP-трекери. Уже почате завантаження тримає попередній вибір, доки ви не спробуєте знову.",
+  "Optional. With the built-in VPN, UDP trackers and DHT stay off until you turn this on, which is why a torrent that only lists UDP trackers does not start. Names are looked up through the VPN too. Add the VPN itself later under Settings > Downloading > VPN and proxy, where you can change this.": "Необов'язково. Зі вбудованим VPN UDP-трекери і DHT лишаються вимкненими, доки ви це не ввімкнете, тому торрент, у якому вказані лише UDP-трекери, не стартує. Імена теж шукаються через VPN. Саму VPN можна додати пізніше в Налаштування > Завантаження > VPN і проксі, де це також можна змінити.",
+  "UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.": "UDP-трекери і DHT можуть іти через вбудований VPN. Перемикач у Налаштування > Завантаження > VPN і проксі, вимкнений, доки ви його не ввімкнете, і імена трекерів теж шукаються через VPN.",
+  "VPN": "VPN",
+  "Torrents wait instead of connecting without the tunnel. A proxy for torrents (below) counts too. uTP stays off through the tunnel.": "Торенти чекають, замість того щоб підключатися без тунелю. Проксі для торентів (нижче) теж рахується. uTP лишається вимкненим у тунелі.",
+  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "У цьому посиланні немає трекерів. DHT ішов через VPN і все одно не знайшов пірів. Спробуйте інший реліз."
 }

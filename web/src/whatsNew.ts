@@ -10,6 +10,12 @@ export interface ReleaseNotes {
 
 export const WHATS_NEW: ReleaseNotes[] = [
   {
+    version: '3.9.0',
+    items: [
+      t('UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.'),
+    ],
+  },
+  {
     version: '3.7.0',
     items: [
       t("The calendar shows each episode on the day and hour it airs in your own time zone, using air times from TVmaze."),

@@ -7685,5 +7685,15 @@
   "{why}, so it stays on Prowlarr: added as Prowlarr’s own feed for it, with Prowlarr’s API key": "{why}, por isso fica no Prowlarr: adicionado como o feed próprio do Prowlarr, com a chave de API do Prowlarr",
   "…and {n} more": "…e mais {n}",
   "← Back to the list": "← Voltar para a lista",
-  "✓ in the video": "✓ no vídeo"
+  "✓ in the video": "✓ no vídeo",
+  "UDP trackers and DHT through the VPN": "Trackers UDP e DHT pela VPN",
+  "Saved: UDP trackers and DHT now go through the VPN.": "Guardado: os trackers UDP e o DHT passam agora pela VPN.",
+  "Saved: UDP trackers and DHT stay off while the VPN is on.": "Guardado: os trackers UDP e o DHT ficam desligados enquanto a VPN está ligada.",
+  "Peers and trackers see the VPN address. Tracker and DHT names are looked up through the tunnel, and if that fails nothing is sent from your home address.": "Os pares e os trackers veem o endereço da VPN. Os nomes dos trackers e do DHT são procurados através do túnel e, se isso falhar, nada é enviado a partir do seu endereço de casa.",
+  "Announces to UDP trackers and DHT queries go out through the tunnel, so peers and trackers see the VPN address. Tracker and DHT names are looked up through the VPN's DNS, not from your home connection, and a failed lookup does not go out. While this is off, those are skipped and only HTTP trackers are used. A download that has already started keeps the previous choice until you retry it.": "Os anúncios aos trackers UDP e os pedidos DHT saem pelo túnel, por isso os pares e os trackers veem o endereço da VPN. Os nomes dos trackers e do DHT são procurados no DNS da VPN, não na sua ligação de casa, e uma procura que falha não sai. Enquanto isto está desligado, são ignorados e só os trackers HTTP são usados. Uma transferência que já começou mantém a escolha anterior até voltar a tentar.",
+  "Optional. With the built-in VPN, UDP trackers and DHT stay off until you turn this on, which is why a torrent that only lists UDP trackers does not start. Names are looked up through the VPN too. Add the VPN itself later under Settings > Downloading > VPN and proxy, where you can change this.": "Opcional. Com a VPN integrada, os trackers UDP e o DHT ficam desligados até ligar isto, e por isso um torrent que só lista trackers UDP não começa. Os nomes também são procurados através da VPN. A própria VPN adiciona-se mais tarde em Definições > A transferir > VPN e proxy, onde pode mudar isto.",
+  "UDP trackers and DHT can go through the built-in VPN. The switch is under Settings > Downloading > VPN and proxy, off until you turn it on, and tracker names are looked up through the VPN too.": "Os trackers UDP e o DHT podem passar pela VPN integrada. O interruptor está em Definições > A transferir > VPN e proxy, desligado até o ligar, e os nomes dos trackers também são procurados através da VPN.",
+  "VPN": "VPN",
+  "Torrents wait instead of connecting without the tunnel. A proxy for torrents (below) counts too. uTP stays off through the tunnel.": "Os torrents esperam em vez de se ligarem sem o túnel. Um proxy para torrents (abaixo) também conta. O uTP fica desligado através do túnel.",
+  "This link lists no trackers. DHT ran through the VPN and still found no peers. Try another release.": "Esta ligação não lista trackers. O DHT passou pela VPN e mesmo assim não encontrou pares. Tente outra versão."
 }

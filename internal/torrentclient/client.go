@@ -44,6 +44,13 @@ type TunnelPacket interface {
 	ListenPacket(network, addr string) (net.PacketConn, error)
 }
 
+// TunnelNames resolves a tracker or DHT hostname through the tunnel (the
+// VPN's own DNS). It must not ask the host's resolver. An error fails the
+// announce; nothing is then sent from the home address.
+type TunnelNames interface {
+	LookupHost(ctx context.Context, host string) ([]net.IP, error)
+}
+
 // Config are the local engine settings ("seed ratio/time
 // limits, category-based save paths").
 type Config struct {
@@ -141,6 +148,15 @@ func New(cfg Config) (*Client, error) {
 	})
 	tcfg.Callbacks.PeerConnReadExtensionMessage = append(tcfg.Callbacks.PeerConnReadExtensionMessage, guardMetadataMessage)
 	applyNetworkPolicy(tcfg, cfg.Tunnel, cfg.AllowLocalAddresses, cfg.DiscoverThroughTunnel)
+	// Replace the engine's bootstrap list before the client exists. The
+	// default one resolves the DHT routers with the host's DNS.
+	if cfg.DiscoverThroughTunnel {
+		if names, ok := cfg.Tunnel.(TunnelNames); ok {
+			if _, ok := cfg.Tunnel.(TunnelPacket); ok {
+				tcfg.DhtStartingNodes = tunnelBootstrap(names)
+			}
+		}
+	}
 	tc, err := torrent.NewClient(tcfg)
 	if err != nil {
 		return nil, fmt.Errorf("create torrent client: %w", err)
@@ -173,17 +189,29 @@ func (c *Client) enableTunnelDiscovery(tc *torrent.Client) error {
 	if !ok {
 		return nil
 	}
+	names, ok := c.cfg.Tunnel.(TunnelNames)
+	if !ok {
+		return fmt.Errorf("dht through the vpn: the tunnel cannot look up names")
+	}
+	// Installed before any announce, and removed when the engine stops.
+	// While it is in place, tracker hostnames are not resolved on the host.
+	stop := installTunnelDNS(names.LookupHost)
 	pc, err := udp.ListenPacket("udp4", ":0")
 	if err != nil {
+		stop()
 		return fmt.Errorf("dht through the vpn: %w", err)
 	}
 	ds, err := tc.NewAnacrolixDhtServer(pc)
 	if err != nil {
 		_ = pc.Close()
+		stop()
 		return fmt.Errorf("dht through the vpn: %w", err)
 	}
 	tc.AddDhtServer(torrent.AnacrolixDhtServerWrapper{Server: ds})
-	c.closeDHT = func() { ds.Close() }
+	c.closeDHT = func() {
+		ds.Close()
+		stop()
+	}
 	return nil
 }
 

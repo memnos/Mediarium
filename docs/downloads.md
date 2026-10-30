@@ -34,6 +34,17 @@ All torrents run in one built-in engine that listens on **port 58264, TCP and UD
 - **Is it working?** The Client card says so in plain words: whether the port is open right now, and whether another peer has connected to you yet. The same facts are in `GET /api/downloads/status` (`torrent.listenPort`, `torrent.listening`, `torrent.activePort`, `torrent.activeTorrents`, `torrent.incomingSeen` and `torrent.lastIncomingAt`). The engine only listens while a torrent is downloading or seeding, and a peer only connects when it wants a torrent you have. So "not seen yet" right after starting is normal. If it still says that after a while of seeding, the port is probably not reachable: it isn't published, it isn't forwarded, or a firewall is blocking it.
 - **While a VPN is connected** (Settings > Downloading > VPN and proxy; see [vpn.md](./vpn.md)), torrent traffic only goes out through the tunnel and nothing listens on the host at all, so no incoming connection is ever seen. That's expected, and the port card says "Not used while your VPN is on".
 
+### UDP trackers and DHT
+
+While a VPN is connected, **UDP trackers and DHT through the VPN** (Settings > Downloading > VPN and proxy, `vpn.discover_through_tunnel`) is off until you turn it on. The setup wizard offers the same switch, and after an update it is listed in What's new.
+
+- **Off:** announces to `udp://` trackers and DHT queries are skipped. HTTP trackers still work, which is why a torrent that lists only UDP trackers stays at 0 B/s until the VPN is disconnected.
+- **On:** those announces and DHT queries leave through the tunnel, so peers and trackers see the VPN address. The tracker and DHT names are looked up through the VPN's DNS, not on your home connection. The connection needs DNS servers (the same field as for indexers). If a name cannot be looked up that way, or the tunnel cannot open its UDP socket, nothing is sent from your home address.
+- A download that has already started keeps the choice it started with until you retry it. uTP stays off, and nothing listens for incoming peers.
+- A SOCKS or HTTP proxy cannot carry this UDP, so with only a proxy the trackers and DHT stay off.
+
+The same rules are written out in [vpn.md](./vpn.md#udp-trackers-and-dht).
+
 ### When torrents are switched off
 
 Torrents are on unless you switch them off (or choose **Usenet only**). While they are off, a torrent release can't be downloaded, and Mediarium says so before you try. A release list (**Choose a release**, or Search > Releases) that holds torrent releases starts with a line: *Torrents are switched off, so torrent releases can't be downloaded.* An administrator sees a **Switch on torrents** button next to it, which does the same as turning on **Download from torrents** on the Torrents page (and leaves **Usenet only**). Everyone else sees *Ask an administrator to switch torrents on.* After switching on, the line tells you to press the release's **Grab** button again.

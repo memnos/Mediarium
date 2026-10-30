@@ -53,6 +53,7 @@ type Tunnel struct {
 	dev    *device.Device
 	tnet   *netstack.Net
 	locals []netip.Addr // this device's addresses inside the tunnel
+	dns    []netip.Addr // the VPN's DNS servers; lookups for trackers go here
 }
 
 // Up brings a tunnel to the configured peer. It does not verify the
@@ -107,7 +108,7 @@ func Up(cfg Config) (*Tunnel, error) {
 		return nil, fmt.Errorf("bring wireguard device up: %w", err)
 	}
 
-	t := &Tunnel{dev: dev, tnet: tnet, locals: localAddrs}
+	t := &Tunnel{dev: dev, tnet: tnet, locals: localAddrs, dns: dnsAddrs}
 	// A name with both an IPv4 and an IPv6 address: if the first one doesn't
 	// answer, try the other before giving up.
 	if len(candidates) > 1 {
@@ -156,6 +157,34 @@ func (c Config) tryOtherCandidates(t *Tunnel, candidates []string) error {
 // default, Usenet/general traffic optionally).
 func (t *Tunnel) DialContext(ctx context.Context, network, addr string) (net.Conn, error) {
 	return t.tnet.DialContext(ctx, network, addr)
+}
+
+// LookupHost resolves host through the VPN's DNS. The query leaves inside
+// the tunnel. A literal address is returned as it is. With no DNS servers
+// on the connection, or when the lookup fails, the error is returned and
+// nothing is asked of the host's resolver.
+func (t *Tunnel) LookupHost(ctx context.Context, host string) ([]net.IP, error) {
+	host = strings.Trim(strings.TrimSuffix(host, "."), "[]")
+	if ip := net.ParseIP(host); ip != nil {
+		return []net.IP{ip}, nil
+	}
+	if len(t.dns) == 0 || t.tnet == nil {
+		return nil, errors.New("this VPN connection has no DNS servers, so the name was not looked up")
+	}
+	names, err := t.tnet.LookupContextHost(ctx, host)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]net.IP, 0, len(names))
+	for _, s := range names {
+		if ip := net.ParseIP(s); ip != nil {
+			out = append(out, ip)
+		}
+	}
+	if len(out) == 0 {
+		return nil, fmt.Errorf("the VPN's DNS has no address for %s", host)
+	}
+	return out, nil
 }
 
 // ListenPacket opens a UDP socket inside the tunnel. Packets leave from the

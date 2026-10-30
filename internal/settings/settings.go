@@ -168,9 +168,8 @@ const (
 	KeyVPNRouteIndexers = "vpn.route_indexers" // "1" sends searches, RSS, release downloads, IRC announces and debrid through the VPN, and they wait while it isn't up. Home-network addresses still connect directly
 
 	// UDP tracker announces and DHT queries through the built-in VPN. Off
-	// when unset: those are skipped, and only HTTP trackers are used. On,
-	// the packets leave from the VPN address, not the home address.
-	KeyVPNDiscoverThroughTunnel = "vpn.discover_through_tunnel"
+	// when unset: those are skipped, and only HTTP trackers are used.
+	KeyVPNDiscoverThroughTunnel = "vpn.discover_through_tunnel" // "1" sends UDP tracker announces and DHT through the VPN and looks their names up through the VPN's DNS. A failed lookup, or a tunnel socket that will not open, sends nothing from the home address. Unset or "0" skips them
 
 	// A SOCKS5 or HTTP proxy for some of Mediarium's traffic. The address
 	// (with any user name and password) is stored encrypted; "" means no

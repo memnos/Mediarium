@@ -10,7 +10,7 @@ under [Unreleased]. How releases are cut: [docs/RELEASING.md](docs/RELEASING.md)
 
 ### Added
 
-- **UDP trackers and DHT through the VPN** (Settings > Downloading > VPN and proxy), off until you turn it on. Announces to `udp://` trackers and DHT queries then leave through the built-in WireGuard tunnel, so peers and trackers see the VPN address rather than your home address. While it is off, those are skipped and only HTTP trackers are used, which is why a torrent that lists only UDP trackers stays at 0 B/s until the VPN is disconnected. uTP stays off, and a download that has already started keeps the previous choice until you retry it. A SOCKS or HTTP proxy does not carry this UDP.
+- **UDP trackers and DHT through the VPN** (Settings > Downloading > VPN and proxy, and in the setup wizard), off until you turn it on. Announces to `udp://` trackers and DHT queries then leave through the built-in WireGuard tunnel, so peers and trackers see the VPN address rather than your home address. Tracker and DHT names are looked up through the VPN's DNS, and if that lookup fails, or the tunnel cannot open its UDP socket, nothing is sent from your home address. While the switch is off, those are skipped and only HTTP trackers are used, which is why a torrent that lists only UDP trackers stays at 0 B/s until the VPN is disconnected. uTP stays off, and a download that has already started keeps the previous choice until you retry it. A SOCKS or HTTP proxy does not carry this UDP.
 
 ## [3.8.2] - 2026-10-29
 

@@ -23,6 +23,10 @@ func (p *packetTunnel) ListenPacket(string, string) (net.PacketConn, error) {
 	return &idlePacket{addr: &net.UDPAddr{IP: net.IPv4(10, 2, 0, 2), Port: 1}, done: make(chan struct{})}, nil
 }
 
+func (p *packetTunnel) LookupHost(context.Context, string) ([]net.IP, error) {
+	return nil, errors.New("no dns in this test")
+}
+
 type idlePacket struct {
 	addr net.Addr
 	done chan struct{}

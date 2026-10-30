@@ -96,18 +96,38 @@ func tunnelDNSDial(ctx context.Context, network, address string) (net.Conn, erro
 // this lookup. The engine resolves that hostname with net.ResolveUDPAddr and
 // offers no resolver to pass in, and the Go resolver does the exchange on a
 // fresh goroutine, so this goroutine's own callers are only the resolver.
-// The announce is still on the stack of the goroutine that asked, which is
-// how the lookup is told apart from every other one Mediarium makes. DHT
-// bootstrap does not come through here: it calls the tunnel lookup itself.
+// The announce is still on the stack of the goroutine that asked. That stack
+// has to be the one inside ResolveUDPAddr: the tracker's read loop stays in
+// the same package for the whole download, and matching the package alone
+// would send every other lookup through the tunnel too. DHT bootstrap does
+// not come through here: it calls the tunnel lookup itself.
 func lookupFromTunnelUser() bool {
 	buf := make([]byte, 64<<10)
 	for {
 		n := runtime.Stack(buf, true)
 		if n < len(buf) || len(buf) >= 1<<20 {
-			return bytes.Contains(buf[:n], []byte("/torrent/tracker/udp."))
+			return announceIsResolving(buf[:n])
 		}
 		buf = make([]byte, len(buf)*2)
 	}
+}
+
+// announceIsResolving reports whether some goroutine is resolving a UDP
+// tracker address. Each goroutine's stack is checked on its own.
+func announceIsResolving(dump []byte) bool {
+	for len(dump) > 0 {
+		stack := dump
+		if i := bytes.Index(dump, []byte("\n\n")); i >= 0 {
+			stack = dump[:i]
+			dump = dump[i+2:]
+		} else {
+			dump = nil
+		}
+		if bytes.Contains(stack, []byte("/torrent/tracker/udp.")) && bytes.Contains(stack, []byte("ResolveUDPAddr")) {
+			return true
+		}
+	}
+	return false
 }
 
 // tunnelDNSConn answers one DNS query from the tunnel lookup. It never

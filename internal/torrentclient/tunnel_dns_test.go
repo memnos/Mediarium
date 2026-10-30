@@ -92,6 +92,23 @@ func TestTrackerNamesResolveThroughTheTunnel(t *testing.T) {
 	if host.Load() != 0 {
 		t.Fatalf("the tracker name was also looked up on the host (%d times)", host.Load())
 	}
+
+	// The tracker's read loop stays inside the UDP package for the life of
+	// the engine. A name that is not being announced must still use the host
+	// resolver, or every lookup Mediarium makes would go through the VPN.
+	var separated bool
+	for i := 0; i < 8 && !separated; i++ {
+		looked.Delete("other.example")
+		before := host.Load()
+		lctx, lcancel := context.WithTimeout(context.Background(), 300*time.Millisecond)
+		_, _ = net.DefaultResolver.LookupNetIP(lctx, "ip4", "other.example")
+		lcancel()
+		_, tunneled := looked.Load("other.example")
+		separated = !tunneled && host.Load() > before
+	}
+	if !separated {
+		t.Fatal("a name that is not a tracker was resolved through the VPN while a tracker client was open")
+	}
 	if tor != nil {
 		engine.Remove(tor)
 	}

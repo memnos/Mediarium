@@ -17,12 +17,12 @@ The language for movie and show information is its own choice, apart from the sc
 - Pick it under **Settings > Info, lists and subtitles > Movie and show info > Language for movie and show info**, or in the **Connect your services** step of setup. There are about thirty languages. If you've set a screen language, a button offers the matching one.
 - Release dates on a movie page and in the calendar are the ones of a country. Under **Country for release dates**, in the same card, you can pick yours (India, say, while reading in English); **Same as the info language** takes it from the language above, so English means the US.
 - It changes the titles, descriptions, genres and posters on **Discover, search results and title pages**. Where TMDB has no translation of something, you see the English text.
-- **Your files and folders always use the English title.** The name of a movie folder, the title a release is searched for on your indexers, and the matching of downloads never depend on this setting, so changing it never renames or re-searches anything.
-- Your library lists and the pages of titles already in your library still show the title they were added under (the English one) for now.
+- The same language is used for the **title and poster of a movie or show already in your library**: the Library, the Dashboard, Activity (a download and the waiting list), the calendar, reports, requests, statistics, and the title and poster in a notification. Where TMDB has no translation or no poster in that language, you see the English one. The English title stays saved.
+- **Your files and folders always use the English title.** The name of a movie folder, the title a release is searched for on your indexers, and the matching of downloads never depend on this setting, so changing it never renames or re-searches anything. An episode's own name, and a line already written in the activity history, stay as they were.
 
 ## What stays in English
 
-- Log lines, and the messages of the server that Mediarium has no translation for (a message that is made up of pieces, or a detail another program sent, such as a provider's own error). Emails and push messages are written in English too.
+- Log lines, and the messages of the server that Mediarium has no translation for (a message that is made up of pieces, or a detail another program sent, such as a provider's own error). Emails and push messages are written in English too. The film or show title and poster in them follow the info language.
 - Names of other apps and services (Plex, Jellyfin, TMDB, OpenSubtitles…), release names, quality names such as 1080p, and file paths.
 - Button and menu names of other apps' own websites in setup steps (for example where to find a key on TMDB), so they match what you see there.
 - Music and book details: they come from MusicBrainz and Open Library as those services provide them. (Movie and show details can be read in your language: see below.)
